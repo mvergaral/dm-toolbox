@@ -42,6 +42,8 @@ Fully localized interface available in **English** and **Spanish**.
 ### For Users
 Download the latest executable for Windows, macOS, or Linux from the [Releases](https://github.com/mvergaral/dm-toolbox/releases) page.
 
+> **Note for Windows Users:** You may see a "Windows protected your PC" (SmartScreen) warning when installing. This is normal for new open-source applications without a paid digital certificate. To proceed, click **"More info"** and then **"Run anyway"**.
+
 ### For Developers
 DM Toolbox is built with Electron, React, and TypeScript.
 
