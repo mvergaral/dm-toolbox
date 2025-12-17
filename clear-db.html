@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Limpiar Base de Datos - DM Toolbox</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #0f172a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid #334155;
+            max-width: 500px;
+            text-align: center;
+        }
+        h1 { color: #6366f1; margin-bottom: 1rem; }
+        button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        button:hover { background: #4f46e5; }
+        button.danger { background: #dc2626; }
+        button.danger:hover { background: #b91c1c; }
+        #status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background: #334155;
+        }
+        .success { color: #10b981; }
+        .error { color: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗑️ Limpiar Base de Datos</h1>
+        <p>Elimina todas las bases de datos de IndexedDB para resolver errores DB9</p>
+
+        <button onclick="listDatabases()">Ver Bases de Datos</button>
+        <button class="danger" onclick="clearAll()">Limpiar Todas</button>
+
+        <div id="status"></div>
+    </div>
+
+    <script>
+        async function listDatabases() {
+            const status = document.getElementById('status');
+            try {
+                const dbs = await indexedDB.databases();
+                if (dbs.length === 0) {
+                    status.innerHTML = '<p class="success">✅ No hay bases de datos</p>';
+                } else {
+                    const list = dbs.map(db => `• ${db.name} (v${db.version || 0})`).join('<br>');
+                    status.innerHTML = `<p>Bases de datos encontradas:</p><p>${list}</p>`;
+                }
+            } catch (error) {
+                status.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+            }
+        }
+
+        async function clearAll() {
+            const status = document.getElementById('status');
+            status.innerHTML = '<p>🔄 Limpiando...</p>';
+
+            try {
+                const dbs = await indexedDB.databases();
+
+                if (dbs.length === 0) {
+                    status.innerHTML = '<p class="success">✅ No había bases de datos para limpiar</p>';
+                    return;
+                }
+
+                for (const db of dbs) {
+                    await new Promise((resolve, reject) => {
+                        const req = indexedDB.deleteDatabase(db.name);
+                        req.onsuccess = resolve;
+                        req.onerror = reject;
+                    });
+                }
+
+                status.innerHTML = `<p class="success">✅ ${dbs.length} base(s) de datos eliminada(s)</p><p>Ahora puedes cerrar esta ventana y recargar tu app</p>`;
+            } catch (error) {
+                status.innerHTML = `<p class="error">❌ Error: ${error.message}</p>`;
+            }
+        }
+
+        // Auto-listar al cargar
+        listDatabases();
+    </script>
+</body>
+</html>

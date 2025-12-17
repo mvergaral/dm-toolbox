@@ -1,0 +1,376 @@
+{
+  "app": {
+    "title": "DM Toolbox",
+    "subtitle": "Herramientas para Dungeon Masters"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "overview": "Resumen",
+    "campaigns": "Campañas",
+    "goToCampaign": "Ir a Campaña",
+    "npcs": "NPCs",
+    "sessions": "Sesiones",
+    "combat": "Combate",
+    "characters": "Personajes",
+    "maps": "Mapas",
+    "settings": "Configuración"
+  },
+  "common": {
+    "save": "Guardar",
+    "saveChanges": "Guardar Cambios",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "close": "Cerrar",
+    "back": "Volver",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "yes": "Sí",
+    "no": "No",
+    "confirm": "Confirmar",
+    "loading": "Cargando...",
+    "noData": "No hay datos disponibles",
+    "actions": "Acciones",
+    "viewAll": "Ver todo",
+    "moreDetails": "Más detalles",
+    "lessDetails": "Menos detalles",
+    "searchNoResults": "Intenta con otros términos de búsqueda",
+    "unspecified": "Sin especificar"
+  },
+  "campaigns": {
+    "title": "Campañas",
+    "description": "Gestiona tus mundos, sesiones y crónicas.",
+    "new": "Nueva Campaña",
+    "noCampaigns": "No hay campañas creadas",
+    "noCampaignsDesc": "Crea tu primera campaña para comenzar",
+    "createFirst": "Crear primera campaña",
+    "create": {
+      "success": "Campaña creada exitosamente"
+    },
+    "edit": {
+      "success": "Campaña actualizada exitosamente"
+    },
+    "delete": {
+      "confirm": "¿Eliminar campaña?",
+      "message": "Esta acción no se puede deshacer",
+      "title": "Eliminar campaña",
+      "success": "Campaña eliminada exitosamente"
+    },
+    "form": {
+      "name": "Nombre de la campaña",
+      "namePlaceholder": "Ej: La Mina Perdida de Phandelver",
+      "gameSystem": "Sistema de juego",
+      "gameSystemPlaceholder": "Selecciona o crea uno nuevo",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Describe tu campaña...",
+      "defaultDescription": "Una nueva aventura comienza..."
+    },
+    "detail": {
+      "modules": "Módulos de Campaña",
+      "createdAt": "Creada el",
+      "tip": "Cada módulo te permitirá gestionar diferentes aspectos de tu campaña.",
+      "combatTracker": {
+        "title": "Combat Tracker",
+        "description": "Gestiona iniciativa, HP y turnos de combate"
+      },
+      "characters": {
+        "title": "Personajes (Jugadores)",
+        "description": "Gestiona los PJs de tu campaña"
+      },
+      "npcs": {
+        "title": "NPCs",
+        "description": "Base de datos de personajes no jugadores y enemigos"
+      },
+      "sessions": {
+        "title": "Planificación de Sesiones",
+        "description": "Organiza partidas y lleva registro de tu campaña"
+      },
+      "maps": {
+        "title": "Mapas & Tablero",
+        "description": "Virtual tabletop con niebla de guerra"
+      }
+    }
+  },
+  "sessions": {
+    "title": "Planificación de Sesiones",
+    "description": "Organiza tus partidas y lleva registro de tu campaña",
+    "new": "Nueva Sesión",
+    "newTitle": "Nueva Sesión",
+    "editTitle": "Editar Sesión",
+    "create": "Crear Sesión",
+    "empty": "No hay sesiones",
+    "emptyHint": "Crea la primera sesión para comenzar",
+    "sessionNumber": "Sesión #{{number}}",
+    "linkedCombats": "{{count}} combates",
+    "linkedNpcs": "{{count}} NPCs",
+    "markCompleted": "Marcar Completada",
+    "markCancelled": "Cancelar",
+    "markPlanned": "Volver a Planear",
+    "deleteConfirm": "¿Estás seguro de eliminar esta sesión?",
+    "notFound": "Sesión no encontrada",
+    "noSessions": "No hay sesiones planificadas",
+    "noSessionsDesc": "Crea tu primera sesión para comenzar a planificar",
+    "session": "Sesión",
+    "status": {
+      "planned": "Planeada",
+      "completed": "Completada",
+      "cancelled": "Cancelada"
+    },
+    "filter": {
+      "all": "Todas",
+      "planned": "Planeadas",
+      "completed": "Completadas",
+      "cancelled": "Canceladas"
+    },
+    "form": {
+      "title": "Título de la sesión",
+      "titlePlaceholder": "Ej: El ataque al castillo",
+      "number": "Sesión #",
+      "date": "Fecha de la Sesión",
+      "notes": "Notas",
+      "notesPlaceholder": "Planificación de la sesión...",
+      "linkedCombats": "Combates Relacionados",
+      "linkedNpcs": "NPCs Relacionados"
+    },
+    "detail": {
+      "notes": "Notas de la Sesión",
+      "preview": "Vista Previa",
+      "notesPlaceholder": "Escribe las notas de la sesión aquí...",
+      "notesEmpty": "No hay notas para esta sesión. Haz click en \"Editar\" para agregar.",
+      "link": "Vincular",
+      "linkCombat": "Vincular Combate",
+      "linkNpc": "Vincular NPC",
+      "unlinkCombat": "Desvincular combate",
+      "unlinkNpc": "Desvincular NPC",
+      "combats": "Combates",
+      "noCombats": "No hay combates vinculados",
+      "noCombatsAvailable": "No hay combates disponibles para vincular",
+      "noNpcs": "No hay NPCs vinculados",
+      "noNpcsAvailable": "No hay NPCs disponibles para vincular",
+      "active": "Activo",
+      "finishedRound": "Finalizado en ronda {{round}}"
+    }
+  },
+  "characters": {
+    "title": "Personajes",
+    "description": "Gestiona los PJs de tu campaña",
+    "new": "Nuevo Personaje",
+    "noCharacters": "No hay personajes creados",
+    "noCharactersDesc": "Crea tu primer personaje para comenzar",
+    "classAndLevel": "Clase & Nivel",
+    "maxHp": "HP Máximos",
+    "ac": "Clase de Armadura",
+    "initiative": "Iniciativa",
+    "edit": "Editar Personaje",
+    "form": {
+      "name": "Nombre",
+      "namePlaceholder": "Nombre del personaje",
+      "playerName": "Nombre del Jugador",
+      "playerNamePlaceholder": "Ej: Juan Pérez",
+      "race": "Raza",
+      "racePlaceholder": "Ej: Humano",
+      "class": "Clase",
+      "classPlaceholder": "Ej: Guerrero",
+      "level": "Nivel",
+      "hp": "Puntos de Vida",
+      "ac": "Clase de Armadura",
+      "initiative": "Iniciativa",
+      "notes": "Notas",
+      "notesPlaceholder": "Información adicional sobre el personaje...",
+      "image": "Imagen del personaje"
+    },
+    "alive": "Vivo",
+    "dead": "Muerto",
+    "toggleAlive": "Marcar como muerto",
+    "toggleDead": "Marcar como vivo",
+    "delete": {
+      "confirm": "¿Eliminar personaje?",
+      "message": "Esta acción no se puede deshacer"
+    }
+  },
+  "npcs": {
+    "title": "NPCs",
+    "description": "Base de datos de personajes no jugadores",
+    "new": "Nuevo NPC",
+    "edit": "Editar NPC",
+    "noNpcs": "No hay NPCs creados",
+    "noNpcsDesc": "Crea tu primer NPC para comenzar",
+    "form": {
+      "name": "Nombre",
+      "namePlaceholder": "Nombre del NPC",
+      "race": "Raza",
+      "racePlaceholder": "Ej: Humano",
+      "role": "Rol",
+      "rolePlaceholder": "Ej: Comerciante",
+      "hp": "Puntos de Vida",
+      "ac": "Clase de Armadura",
+      "status": "Estado",
+      "attacks": "Ataques",
+      "attacksPlaceholder": "Describe los ataques...",
+      "notes": "Notas",
+      "notesPlaceholder": "Información adicional del NPC...",
+      "image": "Imagen del NPC"
+    },
+    "hostile": "Hostil",
+    "friendly": "Amigable",
+    "toggleHostile": "Marcar como hostil",
+    "toggleFriendly": "Marcar como amigable",
+    "filter": {
+      "all": "Todos",
+      "hostile": "Hostiles",
+      "friendly": "Amigables"
+    },
+    "delete": {
+      "confirm": "¿Eliminar NPC?",
+      "message": "Esta acción no se puede deshacer"
+    }
+  },
+  "monsters": {
+    "title": "Monstruos",
+    "description": "Bestiario de criaturas y enemigos",
+    "new": "Nuevo Monstruo",
+    "edit": "Editar Monstruo",
+    "noMonsters": "No hay monstruos creados",
+    "noMonstersDesc": "Crea tu primer monstruo para comenzar",
+    "form": {
+      "name": "Nombre",
+      "namePlaceholder": "Nombre del monstruo",
+      "race": "Tipo/Raza",
+      "racePlaceholder": "Ej: Bestia, No-muerto",
+      "role": "Rol/CR",
+      "rolePlaceholder": "Ej: Boss, Minion, CR 5",
+      "hp": "Puntos de Vida",
+      "ac": "Clase de Armadura",
+      "status": "Estado",
+      "attacks": "Ataques/Habilidades",
+      "attacksPlaceholder": "Describe los ataques y habilidades...",
+      "notes": "Notas",
+      "notesPlaceholder": "Información adicional...",
+      "image": "Imagen"
+    },
+    "delete": {
+      "confirm": "¿Eliminar monstruo?",
+      "message": "Esta acción no se puede deshacer"
+    }
+  },
+  "combat": {
+    "title": "Combat Tracker",
+    "description": "Gestiona encuentros de combate e iniciativa",
+    "new": "Nuevo Combate",
+    "noCombats": "No hay combates creados",
+    "noCombatsDesc": "Crea tu primer encuentro de combate",
+    "empty": "No hay encuentros de combate",
+    "emptyHint": "Crea el primero para comenzar",
+    "create": "Crear Encuentro",
+    "newEncounter": "Nuevo Encuentro",
+    "active": "Activo",
+    "history": "Historial",
+    "round": "Ronda {{number}}",
+    "created": "Creado",
+    "turn": "Turno",
+    "initiative": "Iniciativa",
+    "nextTurn": "Siguiente Turno",
+    "prevTurn": "Turno Anterior",
+    "endCombat": "Finalizar Combate",
+    "deleteConfirm": "¿Eliminar este encuentro? Se borrarán todos los combatientes asociados.",
+    "form": {
+      "name": "Nombre del encuentro",
+      "namePlaceholder": "Ej: Emboscada de Goblins"
+    },
+    "combatant": {
+      "new": "Nuevo Combatante",
+      "name": "Nombre",
+      "namePlaceholder": "Nombre del combatiente",
+      "initiative": "Iniciativa",
+      "hp": "Vida",
+      "maxHp": "Vida Máxima",
+      "ac": "CA",
+      "isNpc": "Es NPC",
+      "isPlayer": "Es Jugador",
+      "attacks": "Ataques",
+      "attacksPlaceholder": "Describe los ataques...",
+      "notes": "Notas",
+      "notesPlaceholder": "Notas del combatiente...",
+      "conditions": "Condiciones",
+      "addCondition": "Agregar condición",
+      "customCondition": "Condición personalizada",
+      "selectCharacter": "Seleccionar personaje existente",
+      "createNew": "Crear nuevo combatiente",
+      "image": "Imagen"
+    },
+    "conditions": {
+      "blinded": "Cegado",
+      "charmed": "Encantado",
+      "deafened": "Ensordecido",
+      "frightened": "Asustado",
+      "grappled": "Agarrado",
+      "incapacitated": "Incapacitado",
+      "invisible": "Invisible",
+      "paralyzed": "Paralizado",
+      "petrified": "Petrificado",
+      "poisoned": "Envenenado",
+      "prone": "Derribado",
+      "restrained": "Retenido",
+      "stunned": "Aturdido",
+      "unconscious": "Inconsciente"
+    },
+    "delete": {
+      "confirm": "¿Eliminar combate?",
+      "message": "También se eliminarán todos los combatientes",
+      "combatant": "¿Eliminar combatiente?"
+    }
+  },
+  "tagSelector": {
+    "label": "Sistema de Juego",
+    "new": "Nuevo",
+    "placeholder": "Nombre del sistema (Ej: D&D 5e)",
+    "colorLabel": "Color:",
+    "createTag": "Crear Tag",
+    "colors": {
+      "indigo": "Índigo",
+      "red": "Rojo",
+      "green": "Verde",
+      "blue": "Azul",
+      "yellow": "Amarillo",
+      "purple": "Púrpura",
+      "pink": "Rosa",
+      "orange": "Naranja"
+    }
+  },
+  "settings": {
+    "title": "Configuración",
+    "description": "Personaliza tu experiencia con DM Toolbox",
+    "language": "Idioma",
+    "selectLanguage": "Seleccionar idioma",
+    "languageInfo": "El idioma se guarda automáticamente y se aplicará en toda la aplicación",
+    "spanish": "Español",
+    "english": "English",
+    "about": "Acerca de",
+    "version": "Versión",
+    "appSubtitle": "Herramientas para Dungeon Masters",
+    "buildBy": "Desarrollado por Mvergara",
+    "appearance": {
+      "title": "Apariencia",
+      "sidebarAutoHide": "Ocultar barra lateral automáticamente",
+      "sidebarAutoHideDesc": "La barra lateral se contraerá cuando no esté en uso"
+    }
+  },
+  "dashboard": {
+    "welcome": "Bienvenido a DM Toolbox",
+    "recentCampaigns": "Campañas Recientes",
+    "quickActions": "Acciones Rápidas",
+    "upcomingSessions": "Próximas Sesiones",
+    "noUpcomingSessions": "No hay sesiones planificadas próximamente",
+    "scheduleSession": "Planificar una sesión",
+    "quickActions": {
+      "title": "Acciones Rápidas",
+      "createCampaignDesc": "Crear nueva aventura",
+      "settingsDesc": "Configurar aplicación"
+    },
+    "tips": {
+      "proTip": "Tip Pro",
+      "combatTracker": "Puedes usar el <1>Combat Tracker</1> sin necesidad de crear una sesión. Simplemente ve a tu campaña y selecciona \"Combate\"."
+    }
+  }
+}

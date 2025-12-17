@@ -1,0 +1,343 @@
+{
+  "app": {
+    "title": "DM Toolbox",
+    "subtitle": "Tools for Dungeon Masters"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "overview": "Overview",
+    "campaigns": "Campaigns",
+    "npcs": "NPCs",
+    "settings": "Settings"
+  },
+  "common": {
+    "save": "Save",
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "close": "Close",
+    "back": "Back",
+    "search": "Search",
+    "filter": "Filter",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm",
+    "loading": "Loading...",
+    "noData": "No data available",
+    "actions": "Actions",
+    "viewAll": "View all",
+    "moreDetails": "More details",
+    "lessDetails": "Less details",
+    "searchNoResults": "Try with other search terms",
+    "unspecified": "Unspecified"
+  },
+  "campaigns": {
+    "title": "Campaigns",
+    "description": "Manage your worlds, sessions, and chronicles.",
+    "new": "New Campaign",
+    "noCampaigns": "No campaigns created",
+    "noCampaignsDesc": "Create your first campaign to get started",
+    "createFirst": "Create first campaign",
+    "create": {
+      "success": "Campaign created successfully"
+    },
+    "edit": {
+      "success": "Campaign updated successfully"
+    },
+    "delete": {
+      "confirm": "Delete campaign?",
+      "message": "This action cannot be undone",
+      "title": "Delete campaign",
+      "success": "Campaign deleted successfully"
+    },
+    "form": {
+      "name": "Campaign name",
+      "namePlaceholder": "e.g., Lost Mine of Phandelver",
+      "gameSystem": "Game system",
+      "gameSystemPlaceholder": "Select or create a new one",
+      "description": "Description",
+      "descriptionPlaceholder": "Describe your campaign...",
+      "defaultDescription": "A new adventure begins..."
+    },
+    "detail": {
+      "modules": "Campaign Modules",
+      "createdAt": "Created on",
+      "tip": "Each module allows you to manage different aspects of your campaign.",
+      "combatTracker": {
+        "title": "Combat Tracker",
+        "description": "Manage initiative, HP and combat turns"
+      },
+      "characters": {
+        "title": "Characters (Players)",
+        "description": "Manage your campaign's PCs"
+      },
+      "npcs": {
+        "title": "NPCs",
+        "description": "Database of non-player characters and enemies"
+      },
+      "sessions": {
+        "title": "Session Planning",
+        "description": "Organize sessions and track your campaign"
+      },
+      "maps": {
+        "title": "Maps & Board",
+        "description": "Virtual tabletop with fog of war"
+      }
+    }
+  },
+  "sessions": {
+    "title": "Session Planning",
+    "description": "Organize sessions and track your campaign",
+    "new": "New Session",
+    "newTitle": "New Session",
+    "editTitle": "Edit Session",
+    "create": "Create Session",
+    "empty": "No sessions",
+    "emptyHint": "Create the first session to begin",
+    "sessionNumber": "Session #{{number}}",
+    "linkedCombats": "{{count}} combats",
+    "linkedNpcs": "{{count}} NPCs",
+    "markCompleted": "Mark Completed",
+    "markCancelled": "Cancel",
+    "markPlanned": "Mark as Planned",
+    "deleteConfirm": "Are you sure you want to delete this session?",
+    "notFound": "Session not found",
+    "noSessions": "No sessions planned",
+    "noSessionsDesc": "Create your first session to start planning",
+    "session": "Session",
+    "status": {
+      "planned": "Planned",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "filter": {
+      "all": "All",
+      "planned": "Planned",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "form": {
+      "title": "Session title",
+      "titlePlaceholder": "Ex: The castle assault",
+      "number": "Session #",
+      "date": "Session Date",
+      "notes": "Notes",
+      "notesPlaceholder": "Session planning...",
+      "linkedCombats": "Related Combats",
+      "linkedNpcs": "Related NPCs"
+    },
+    "detail": {
+      "notes": "Session Notes",
+      "preview": "Preview",
+      "notesPlaceholder": "Write session notes here...",
+      "notesEmpty": "No notes for this session. Click \"Edit\" to add.",
+      "link": "Link",
+      "linkCombat": "Link Combat",
+      "linkNpc": "Link NPC",
+      "unlinkCombat": "Unlink combat",
+      "unlinkNpc": "Unlink NPC",
+      "combats": "Combats",
+      "noCombats": "No linked combats",
+      "noCombatsAvailable": "No combats available to link",
+      "noNpcs": "No linked NPCs",
+      "noNpcsAvailable": "No NPCs available to link",
+      "active": "Active",
+      "finishedRound": "Finished in round {{round}}"
+    }
+  },
+  "characters": {
+    "title": "Characters",
+    "description": "Manage your campaign's PCs",
+    "new": "New Character",
+    "noCharacters": "No characters created",
+    "noCharactersDesc": "Create your first character to get started",
+    "classAndLevel": "Class & Level",
+    "maxHp": "Max HP",
+    "ac": "Armor Class",
+    "initiative": "Initiative",
+    "edit": "Edit Character",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Character name",
+      "playerName": "Player Name",
+      "playerNamePlaceholder": "e.g., John Doe",
+      "race": "Race",
+      "racePlaceholder": "e.g., Human",
+      "class": "Class",
+      "classPlaceholder": "e.g., Warrior",
+      "level": "Level",
+      "hp": "Hit Points",
+      "ac": "Armor Class",
+      "initiative": "Initiative",
+      "notes": "Notes",
+      "notesPlaceholder": "Additional character information...",
+      "image": "Character image"
+    },
+    "alive": "Alive",
+    "dead": "Dead",
+    "toggleAlive": "Mark as dead",
+    "toggleDead": "Mark as alive",
+    "delete": {
+      "confirm": "Delete character?",
+      "message": "This action cannot be undone"
+    }
+  },
+  "npcs": {
+    "title": "NPCs",
+    "description": "Database of non-player characters",
+    "new": "New NPC",
+    "edit": "Edit NPC",
+    "noNpcs": "No NPCs created",
+    "noNpcsDesc": "Create your first NPC to get started",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "NPC name",
+      "race": "Race",
+      "racePlaceholder": "e.g., Human",
+      "role": "Role",
+      "rolePlaceholder": "e.g., Merchant",
+      "hp": "Hit Points",
+      "ac": "Armor Class",
+      "status": "Status",
+      "attacks": "Attacks",
+      "attacksPlaceholder": "Describe attacks...",
+      "notes": "Notes",
+      "notesPlaceholder": "Additional NPC information...",
+      "image": "NPC image"
+    },
+    "hostile": "Hostile",
+    "friendly": "Friendly",
+    "toggleHostile": "Mark as hostile",
+    "toggleFriendly": "Mark as friendly",
+    "filter": {
+      "all": "All",
+      "hostile": "Hostile",
+      "friendly": "Friendly"
+    },
+    "delete": {
+      "confirm": "Delete NPC?",
+      "message": "This action cannot be undone"
+    }
+  },
+  "combat": {
+    "title": "Combat Tracker",
+    "description": "Manage combat encounters and initiative",
+    "new": "New Combat",
+    "noCombats": "No combats created",
+    "noCombatsDesc": "Create your first combat encounter",
+    "empty": "No combat encounters",
+    "emptyHint": "Create the first one to begin",
+    "create": "Create Encounter",
+    "newEncounter": "New Encounter",
+    "active": "Active",
+    "history": "History",
+    "round": "Round {{number}}",
+    "created": "Created",
+    "turn": "Turn",
+    "initiative": "Initiative",
+    "nextTurn": "Next Turn",
+    "prevTurn": "Previous Turn",
+    "endCombat": "End Combat",
+    "deleteConfirm": "Delete this encounter? All associated combatants will be removed.",
+    "form": {
+      "name": "Encounter name",
+      "namePlaceholder": "Ex: Goblin Ambush"
+    },
+    "combatant": {
+      "new": "New Combatant",
+      "name": "Name",
+      "namePlaceholder": "Combatant name",
+      "initiative": "Initiative",
+      "hp": "HP",
+      "maxHp": "Max HP",
+      "ac": "AC",
+      "isNpc": "Is NPC",
+      "isPlayer": "Is Player",
+      "attacks": "Attacks",
+      "attacksPlaceholder": "Describe attacks...",
+      "notes": "Notes",
+      "notesPlaceholder": "Combatant notes...",
+      "conditions": "Conditions",
+      "addCondition": "Add condition",
+      "customCondition": "Custom condition",
+      "selectCharacter": "Select existing character",
+      "createNew": "Create new combatant",
+      "image": "Image"
+    },
+    "conditions": {
+      "blinded": "Blinded",
+      "charmed": "Charmed",
+      "deafened": "Deafened",
+      "frightened": "Frightened",
+      "grappled": "Grappled",
+      "incapacitated": "Incapacitated",
+      "invisible": "Invisible",
+      "paralyzed": "Paralyzed",
+      "petrified": "Petrified",
+      "poisoned": "Poisoned",
+      "prone": "Prone",
+      "restrained": "Restrained",
+      "stunned": "Stunned",
+      "unconscious": "Unconscious"
+    },
+    "delete": {
+      "confirm": "Delete combat?",
+      "message": "All combatants will also be deleted",
+      "combatant": "Delete combatant?"
+    }
+  },
+  "tagSelector": {
+    "label": "Game System",
+    "new": "New",
+    "placeholder": "System name (e.g., D&D 5e)",
+    "colorLabel": "Color:",
+    "createTag": "Create Tag",
+    "colors": {
+      "indigo": "Indigo",
+      "red": "Red",
+      "green": "Green",
+      "blue": "Blue",
+      "yellow": "Yellow",
+      "purple": "Purple",
+      "pink": "Pink",
+      "orange": "Orange"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Customize your DM Toolbox experience",
+    "language": "Language",
+    "selectLanguage": "Select language",
+    "languageInfo": "Language is saved automatically and will be applied throughout the application",
+    "spanish": "Español",
+    "english": "English",
+    "about": "About",
+    "version": "Version",
+    "appSubtitle": "Tools for Dungeon Masters",
+    "buildBy": "Built by Mvergara",
+    "appearance": {
+      "title": "Appearance",
+      "sidebarAutoHide": "Auto-hide sidebar",
+      "sidebarAutoHideDesc": "The sidebar will collapse when not in use"
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome to DM Toolbox",
+    "recentCampaigns": "Recent Campaigns",
+    "quickActions": "Quick Actions",
+    "upcomingSessions": "Upcoming Sessions",
+    "noUpcomingSessions": "No upcoming sessions planned",
+    "scheduleSession": "Schedule a session",
+    "quickActions": {
+      "title": "Quick Actions",
+      "createCampaignDesc": "Create new adventure",
+      "settingsDesc": "Configure application"
+    },
+    "tips": {
+      "proTip": "Pro Tip",
+      "combatTracker": "You can use the <1>Combat Tracker</1> without creating a session. Simply go to your campaign and select \"Combat\"."
+    }
+  }
+}

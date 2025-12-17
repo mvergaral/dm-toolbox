@@ -1,0 +1,31 @@
+node_modules
+dist
+out
+.DS_Store
+.eslintcache
+*.log*
+
+# Local env files
+.env
+.env.local
+.env.*.local
+
+# Editor directories and files
+.idea
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+*.suo
+*.ntvs
+*.njsproj
+*.sln
+*.sw?
+
+# System Files
+Thumbs.db
+
+# Build
+build/
+!build/entitlements.mac.plist
+
