@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { X, Plus, Skull, Flame, Droplet, Eye, Zap, Shield, Heart, Brain, Wind } from 'lucide-react'
 
 interface ConditionsManagerProps {
@@ -8,15 +9,15 @@ interface ConditionsManagerProps {
 
 // Condiciones predefinidas con colores e iconos
 const PREDEFINED_CONDITIONS = [
-  { name: 'Aturdido', icon: Brain, color: 'purple' },
-  { name: 'Envenenado', icon: Droplet, color: 'green' },
-  { name: 'Cegado', icon: Eye, color: 'yellow' },
-  { name: 'Quemado', icon: Flame, color: 'red' },
-  { name: 'Paralizado', icon: Zap, color: 'blue' },
-  { name: 'Asustado', icon: Skull, color: 'pink' },
-  { name: 'Protegido', icon: Shield, color: 'indigo' },
-  { name: 'Bendecido', icon: Heart, color: 'orange' },
-  { name: 'Ralentizado', icon: Wind, color: 'blue' }
+  { id: 'stunned', icon: Brain, color: 'purple' },
+  { id: 'poisoned', icon: Droplet, color: 'green' },
+  { id: 'blinded', icon: Eye, color: 'yellow' },
+  { id: 'burning', icon: Flame, color: 'red' },
+  { id: 'paralyzed', icon: Zap, color: 'blue' },
+  { id: 'frightened', icon: Skull, color: 'pink' },
+  { id: 'protected', icon: Shield, color: 'indigo' },
+  { id: 'blessed', icon: Heart, color: 'orange' },
+  { id: 'slowed', icon: Wind, color: 'blue' }
 ]
 
 const CONDITION_COLORS: Record<string, {
@@ -76,6 +77,7 @@ const CONDITION_COLORS: Record<string, {
 }
 
 export default function ConditionsManager({ conditions, onUpdate }: ConditionsManagerProps) {
+  const { t } = useTranslation()
   const [showPicker, setShowPicker] = useState(false)
   const [customCondition, setCustomCondition] = useState('')
 
@@ -99,12 +101,12 @@ export default function ConditionsManager({ conditions, onUpdate }: ConditionsMa
   }
 
   const getConditionColor = (conditionName: string): string => {
-    const predefined = PREDEFINED_CONDITIONS.find(c => c.name === conditionName)
+    const predefined = PREDEFINED_CONDITIONS.find(c => t(`combat.conditions.${c.id}`) === conditionName)
     return predefined?.color || 'indigo'
   }
 
   const getConditionIcon = (conditionName: string) => {
-    const predefined = PREDEFINED_CONDITIONS.find(c => c.name === conditionName)
+    const predefined = PREDEFINED_CONDITIONS.find(c => t(`combat.conditions.${c.id}`) === conditionName)
     return predefined?.icon || Shield
   }
 
@@ -138,26 +140,27 @@ export default function ConditionsManager({ conditions, onUpdate }: ConditionsMa
         <button
           onClick={() => setShowPicker(!showPicker)}
           className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium border border-slate-700 bg-slate-800/50 text-slate-400 hover:bg-slate-700 hover:text-white transition-colors"
-          title="Añadir estado o condición"
+          title={t('combat.conditionsManager.addConditionTitle')}
         >
           <Plus size={12} />
-          Añadir Estado
+          {t('combat.conditionsManager.addCondition')}
         </button>
       </div>
 
       {/* Picker de condiciones */}
       {showPicker && (
         <div className="absolute top-full left-0 mt-2 z-50 bg-slate-900 border border-slate-700 rounded-lg shadow-xl p-3 min-w-[280px]">
-          <p className="text-xs text-slate-400 mb-2 font-medium">Selecciona una condición:</p>
+          <p className="text-xs text-slate-400 mb-2 font-medium">{t('combat.conditionsManager.selectCondition')}</p>
 
           <div className="flex flex-wrap gap-1.5 mb-3">
-            {PREDEFINED_CONDITIONS.map(({ name, icon: Icon, color }) => {
+            {PREDEFINED_CONDITIONS.map(({ id, icon: Icon, color }) => {
+              const name = t(`combat.conditions.${id}`)
               const colors = CONDITION_COLORS[color]
               const isActive = conditions.includes(name)
 
               return (
                 <button
-                  key={name}
+                  key={id}
                   onClick={() => addCondition(name)}
                   disabled={isActive}
                   className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-all ${
@@ -174,7 +177,7 @@ export default function ConditionsManager({ conditions, onUpdate }: ConditionsMa
           </div>
 
           <div className="border-t border-slate-800 pt-3">
-            <p className="text-xs text-slate-400 mb-2 font-medium">O crea una personalizada:</p>
+            <p className="text-xs text-slate-400 mb-2 font-medium">{t('combat.conditionsManager.createCustom')}</p>
             <div className="flex gap-2">
               <input
                 type="text"
@@ -184,7 +187,7 @@ export default function ConditionsManager({ conditions, onUpdate }: ConditionsMa
                   if (e.key === 'Enter') addCustomCondition()
                   if (e.key === 'Escape') setShowPicker(false)
                 }}
-                placeholder="Ej: Invisible"
+                placeholder={t('combat.conditionsManager.customPlaceholder')}
                 className="flex-1 bg-slate-800 border border-slate-700 rounded px-2 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                 autoFocus
               />
@@ -192,7 +195,7 @@ export default function ConditionsManager({ conditions, onUpdate }: ConditionsMa
                 onClick={addCustomCondition}
                 className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded text-xs font-medium transition-colors"
               >
-                Añadir
+                {t('combat.conditionsManager.add')}
               </button>
             </div>
           </div>
@@ -201,7 +204,7 @@ export default function ConditionsManager({ conditions, onUpdate }: ConditionsMa
             onClick={() => setShowPicker(false)}
             className="mt-2 w-full px-2 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded text-xs transition-colors"
           >
-            Cerrar
+            {t('combat.conditionsManager.close')}
           </button>
         </div>
       )}

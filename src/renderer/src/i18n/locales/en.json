@@ -221,6 +221,34 @@
       "message": "This action cannot be undone"
     }
   },
+  "monsters": {
+    "title": "Monsters",
+    "description": "Bestiary of creatures and enemies",
+    "new": "New Monster",
+    "edit": "Edit Monster",
+    "noMonsters": "No monsters created",
+    "noMonstersDesc": "Create your first monster to get started",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Monster name",
+      "race": "Type/Race",
+      "racePlaceholder": "e.g., Beast, Undead",
+      "role": "Role/CR",
+      "rolePlaceholder": "e.g., Boss, Minion, CR 5",
+      "hp": "Hit Points",
+      "ac": "Armor Class",
+      "status": "Status",
+      "attacks": "Attacks/Abilities",
+      "attacksPlaceholder": "Describe attacks and abilities...",
+      "notes": "Notes",
+      "notesPlaceholder": "Additional information...",
+      "image": "Image"
+    },
+    "delete": {
+      "confirm": "Delete monster?",
+      "message": "This action cannot be undone"
+    }
+  },
   "combat": {
     "title": "Combat Tracker",
     "description": "Manage combat encounters and initiative",
@@ -280,7 +308,20 @@
       "prone": "Prone",
       "restrained": "Restrained",
       "stunned": "Stunned",
-      "unconscious": "Unconscious"
+      "unconscious": "Unconscious",
+      "burning": "Burning",
+      "protected": "Protected",
+      "blessed": "Blessed",
+      "slowed": "Slowed"
+    },
+    "conditionsManager": {
+      "addCondition": "Add Condition",
+      "addConditionTitle": "Add status or condition",
+      "selectCondition": "Select a condition:",
+      "createCustom": "Or create a custom one:",
+      "customPlaceholder": "e.g., Invisible",
+      "add": "Add",
+      "close": "Close"
     },
     "delete": {
       "confirm": "Delete combat?",

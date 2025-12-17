@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useDB } from '../context/DbContext'
 import { useTranslation } from 'react-i18next'
@@ -75,6 +75,7 @@ export default function SessionDetail() {
   const [availableCombats, setAvailableCombats] = useState<CombatEncounter[]>([])
   const [availableNpcs, setAvailableNpcs] = useState<Npc[]>([])
   const [expandedNpcId, setExpandedNpcId] = useState<string | null>(null)
+  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Cargar sesión
   useEffect(() => {
@@ -163,22 +164,30 @@ export default function SessionDetail() {
     }
   }
 
-  const updateSessionNotes = async (notes: string) => {
-    if (!db || !sessionId) return
+  const updateSessionNotes = (notes: string) => {
+    // Actualizar estado local inmediatamente para evitar saltos de cursor
+    setSession((prev) => (prev ? { ...prev, notes } : null))
 
-    try {
-      const doc = await db.sessions.findOne(sessionId).exec()
-      if (doc) {
-        await doc.patch({
-          notes: notes,
-          updatedAt: Date.now()
-        })
-        // Actualizar estado local
-        setSession(prev => prev ? { ...prev, notes } : null)
-      }
-    } catch (error) {
-      console.error('Error actualizando notas:', error)
+    // Debounce para guardar en DB
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current)
     }
+
+    saveTimeoutRef.current = setTimeout(async () => {
+      if (!db || !sessionId) return
+
+      try {
+        const doc = await db.sessions.findOne(sessionId).exec()
+        if (doc) {
+          await doc.patch({
+            notes: notes,
+            updatedAt: Date.now()
+          })
+        }
+      } catch (error) {
+        console.error('Error actualizando notas:', error)
+      }
+    }, 1000)
   }
 
   const addCombatToSession = async (combatId: string) => {
@@ -419,6 +428,11 @@ export default function SessionDetail() {
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeSanitize]}
+                  components={{
+                    a: ({ node, ...props }) => (
+                      <a {...props} target="_blank" rel="noopener noreferrer" />
+                    )
+                  }}
                 >
                   {session.notes}
                 </ReactMarkdown>

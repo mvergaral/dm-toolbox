@@ -313,7 +313,20 @@
       "prone": "Derribado",
       "restrained": "Retenido",
       "stunned": "Aturdido",
-      "unconscious": "Inconsciente"
+      "unconscious": "Inconsciente",
+      "burning": "Quemado",
+      "protected": "Protegido",
+      "blessed": "Bendecido",
+      "slowed": "Ralentizado"
+    },
+    "conditionsManager": {
+      "addCondition": "Añadir Estado",
+      "addConditionTitle": "Añadir estado o condición",
+      "selectCondition": "Selecciona una condición:",
+      "createCustom": "O crea una personalizada:",
+      "customPlaceholder": "Ej: Invisible",
+      "add": "Añadir",
+      "close": "Cerrar"
     },
     "delete": {
       "confirm": "¿Eliminar combate?",

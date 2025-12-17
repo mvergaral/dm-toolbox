@@ -325,7 +325,7 @@ export default function Monsters() {
                     <div>
                       <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-2">
                         <Swords size={12} />
-                        Ataques
+                        {t('monsters.form.attacks')}
                       </h4>
                       <p className="text-sm text-slate-300 whitespace-pre-wrap leading-relaxed bg-slate-950/50 p-3 rounded-lg border border-slate-800">
                         {monster.attacks}
@@ -337,7 +337,7 @@ export default function Monsters() {
                     <div>
                       <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-2">
                         <FileText size={12} />
-                        Notas
+                        {t('monsters.form.notes')}
                       </h4>
                       <p className="text-sm text-slate-300 whitespace-pre-wrap leading-relaxed bg-slate-950/50 p-3 rounded-lg border border-slate-800">
                         {monster.notes}
