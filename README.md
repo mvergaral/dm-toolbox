@@ -3,7 +3,7 @@
 A local-first, offline-capable desktop application designed to streamline tabletop role-playing game management. Built for Dungeon Masters who value privacy, speed, and reliability.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-0.3.1-blue.svg)](https://github.com/mvergaral/dm-toolbox)
+[![Version](https://img.shields.io/badge/version-0.3.2-blue.svg)](https://github.com/mvergaral/dm-toolbox)
 
 ## Overview
 
