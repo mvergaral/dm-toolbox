@@ -4,6 +4,7 @@ A local-first, offline-capable desktop application designed to streamline tablet
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/version-0.3.2-blue.svg)](https://github.com/mvergaral/dm-toolbox)
+[![Ko-fi](https://img.shields.io/badge/Donate-Ko--fi-F16061?style=flat&logo=ko-fi&logoColor=white)](https://ko-fi.com/mvergara)
 
 ## Overview
 
@@ -78,6 +79,12 @@ DM Toolbox is built with Electron, React, and TypeScript.
 ## Contributing
 
 Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## Support
+
+If you find DM Toolbox useful, please consider supporting its development:
+
+<a href='https://ko-fi.com/mvergaral' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 ## License
 
