@@ -13,7 +13,9 @@ asarUnpack:
   - resources/**
 win:
   executableName: dm-toolbox
-  target: portable
+  target:
+    - nsis
+    - portable
   forceCodeSigning: false
   verifyUpdateCodeSignature: false
 nsis:

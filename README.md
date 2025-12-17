@@ -39,7 +39,7 @@ Fully localized interface available in **English** and **Spanish**.
 ## Installation
 
 ### For Users
-Download the latest executable for Windows, macOS, or Linux from the [Releases](https://github.com/mvergaral/dm-toolbox/releases) page or support the development by purchasing it on [Itch.io](https://itch.io).
+Download the latest executable for Windows, macOS, or Linux from the [Releases](https://github.com/mvergaral/dm-toolbox/releases) page.
 
 ### For Developers
 DM Toolbox is built with Electron, React, and TypeScript.
