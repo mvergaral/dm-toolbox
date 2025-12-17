@@ -1,0 +1,62 @@
+name: Build and Release
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      # Linux Build
+      - name: Build Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: pnpm build:linux
+
+      # Windows Build
+      - name: Build Windows
+        if: matrix.os == 'windows-latest'
+        run: pnpm build:win
+
+      # macOS Build
+      - name: Build macOS
+        if: matrix.os == 'macos-latest'
+        run: pnpm build:mac
+
+      # Upload Artifacts to Release
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            dist/*.exe
+            dist/*.AppImage
+            dist/*.deb
+            dist/*.snap
+            dist/*.dmg
+            dist/*.zip
