@@ -46,8 +46,9 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo snap install snapcraft --classic
+          echo "/snap/bin" >> $GITHUB_PATH
           sudo apt-get update
-          sudo apt-get install -y libarchive-tools python3 fuse
+          sudo apt-get install -y libarchive-tools python3 libfuse2
 
       - name: Fix app-builder permissions
         if: matrix.os == 'ubuntu-latest'
