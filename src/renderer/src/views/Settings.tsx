@@ -127,7 +127,7 @@ export default function Settings() {
               </h2>
               <div className="space-y-2 text-sm text-slate-400">
                 <p>
-                  <span className="font-medium text-slate-300">DM Toolbox</span> v0.3.1
+                  <span className="font-medium text-slate-300">DM Toolbox</span> v0.4.0
                 </p>
                 <p>
                   {t('settings.appSubtitle')}
