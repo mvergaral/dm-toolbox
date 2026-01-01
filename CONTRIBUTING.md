@@ -23,7 +23,11 @@ We are open to new ideas. If you have a feature request, please open an issue an
 ## Development Guidelines
 
 - **Code Style**: We use ESLint and Prettier. Please ensure your code passes linting before submitting.
-- **Commits**: Write clear, concise commit messages.
+- **Commits**: We follow the **[Conventional Commits](https://www.conventionalcommits.org/)** specification. Please use the format `type(scope): description`.
+  - Examples:
+    - `feat(auth): add login support`
+    - `fix(combat): resolve initiative calculation error`
+    - `chore: update dependencies`
 - **Testing**: If you add a new feature, please test it thoroughly locally.
 
 ## License
