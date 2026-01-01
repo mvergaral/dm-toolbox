@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next'
-import { Settings as SettingsIcon, Languages, Info, Layout } from 'lucide-react'
+import { Settings as SettingsIcon, Languages, Info, Layout, RefreshCw, Coffee } from 'lucide-react'
 import LanguageSelector from '../components/ui/LanguageSelector'
 import BackButton from '../components/ui/BackButton'
 import { useSettings } from '../context/SettingsContext'
 
 export default function Settings() {
   const { t } = useTranslation()
-  const { sidebarAutoHide, setSidebarAutoHide } = useSettings()
+  const { sidebarAutoHide, setSidebarAutoHide, checkForUpdates, setCheckForUpdates } = useSettings()
 
   return (
     <div className="p-8 max-w-4xl mx-auto w-full">
@@ -23,6 +23,40 @@ export default function Settings() {
 
       {/* Sección de Idioma */}
       <div className="space-y-6">
+        {/* Actualizaciones */}
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+          <div className="flex items-start gap-4">
+            <div className="bg-blue-500/10 p-3 rounded-xl">
+              <RefreshCw className="text-blue-400" size={24} />
+            </div>
+            <div className="flex-1">
+              <h2 className="text-xl font-bold text-white mb-2">
+                {t('settings.updates.title')}
+              </h2>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-white font-medium">{t('settings.updates.check')}</p>
+                  <p className="text-sm text-slate-400">{t('settings.updates.checkDesc')}</p>
+                </div>
+                <button
+                  onClick={() => setCheckForUpdates(!checkForUpdates)}
+                  className={`
+                    relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-900
+                    ${checkForUpdates ? 'bg-indigo-600' : 'bg-slate-700'}
+                  `}
+                >
+                  <span
+                    className={`
+                      inline-block h-4 w-4 transform rounded-full bg-white transition-transform
+                      ${checkForUpdates ? 'translate-x-6' : 'translate-x-1'}
+                    `}
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
           <div className="flex items-start gap-4">
             <div className="bg-indigo-500/10 p-3 rounded-xl">
@@ -101,6 +135,14 @@ export default function Settings() {
                 <p className="text-xs text-slate-500 pt-2">
                   {t('settings.buildBy')}
                 </p>
+
+                <button
+                  onClick={() => window.open('https://ko-fi.com/Y8Y21QGBRX', '_blank')}
+                  className="mt-4 flex items-center gap-2 px-4 py-2 bg-[#72a4f2] hover:bg-[#5b8ccf] text-white rounded-lg font-medium transition-colors shadow-lg shadow-blue-500/20"
+                >
+                  <Coffee size={20} />
+                  {t('settings.support')}
+                </button>
               </div>
             </div>
           </div>

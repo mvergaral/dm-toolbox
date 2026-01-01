@@ -145,21 +145,21 @@ export default function Dashboard() {
               <BookOpen size={24} />
             </div>
             <h3 className="text-white font-bold mb-2">{t('nav.campaigns')}</h3>
-            <p className="text-slate-500 text-sm">Organiza tus aventuras, notas y sesiones en un solo lugar.</p>
+            <p className="text-slate-500 text-sm">{t('dashboard.onboarding.campaignsDesc')}</p>
           </div>
           <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl">
             <div className="w-12 h-12 bg-red-500/20 text-red-400 rounded-xl flex items-center justify-center mb-4 mx-auto">
               <Swords size={24} />
             </div>
-            <h3 className="text-white font-bold mb-2">Combat Tracker</h3>
-            <p className="text-slate-500 text-sm">Gestiona iniciativas y turnos de forma fluida y rápida.</p>
+            <h3 className="text-white font-bold mb-2">{t('combat.title')}</h3>
+            <p className="text-slate-500 text-sm">{t('dashboard.onboarding.combatDesc')}</p>
           </div>
           <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl">
             <div className="w-12 h-12 bg-purple-500/20 text-purple-400 rounded-xl flex items-center justify-center mb-4 mx-auto">
               <Users size={24} />
             </div>
-            <h3 className="text-white font-bold mb-2">NPCs & Monstruos</h3>
-            <p className="text-slate-500 text-sm">Crea y administra personajes y enemigos para tus encuentros.</p>
+            <h3 className="text-white font-bold mb-2">{t('dashboard.onboarding.npcsTitle')}</h3>
+            <p className="text-slate-500 text-sm">{t('dashboard.onboarding.npcsDesc')}</p>
           </div>
         </div>
 

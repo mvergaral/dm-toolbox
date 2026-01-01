@@ -7,5 +7,8 @@
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "conventionalCommits.scopes": [
+    "roll-tables"
+  ]
 }

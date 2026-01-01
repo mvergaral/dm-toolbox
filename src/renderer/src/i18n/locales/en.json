@@ -8,7 +8,8 @@
     "overview": "Overview",
     "campaigns": "Campaigns",
     "npcs": "NPCs",
-    "settings": "Settings"
+    "settings": "Settings",
+    "rollTables": "Roll Tables"
   },
   "common": {
     "save": "Save",
@@ -24,6 +25,7 @@
     "yes": "Yes",
     "no": "No",
     "confirm": "Confirm",
+    "deleteConfirm": "Are you sure you want to delete this?",
     "loading": "Loading...",
     "noData": "No data available",
     "actions": "Actions",
@@ -31,7 +33,8 @@
     "moreDetails": "More details",
     "lessDetails": "Less details",
     "searchNoResults": "Try with other search terms",
-    "unspecified": "Unspecified"
+    "unspecified": "Unspecified",
+    "updateAvailable": "New version available: v{{version}}. Download it from GitHub."
   },
   "campaigns": {
     "title": "Campaigns",
@@ -362,7 +365,13 @@
       "title": "Appearance",
       "sidebarAutoHide": "Auto-hide sidebar",
       "sidebarAutoHideDesc": "The sidebar will collapse when not in use"
-    }
+    },
+    "updates": {
+      "title": "Updates",
+      "check": "Check for updates automatically",
+      "checkDesc": "The application will check for new versions on startup"
+    },
+    "support": "Support me on Ko-fi"
   },
   "dashboard": {
     "welcome": "Welcome to DM Toolbox",
@@ -375,6 +384,12 @@
       "title": "Quick Actions",
       "createCampaignDesc": "Create new adventure",
       "settingsDesc": "Configure application"
+    },
+    "onboarding": {
+      "campaignsDesc": "Organize your adventures, notes, and sessions in one place.",
+      "combatDesc": "Manage initiative and turns smoothly and quickly.",
+      "npcsTitle": "NPCs & Monsters",
+      "npcsDesc": "Create and manage characters and enemies for your encounters."
     },
     "tips": {
       "proTip": "Pro Tip",

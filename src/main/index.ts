@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain, Menu } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, Menu, net } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.ico?asset'
@@ -93,6 +93,44 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+
+  ipcMain.handle('check-for-updates', async () => {
+    return new Promise((resolve) => {
+      const request = net.request('https://api.github.com/repos/mvergaral/dm-toolbox/releases/latest')
+      request.on('response', (response) => {
+        let data = ''
+        response.on('data', (chunk) => {
+          data += chunk
+        })
+        response.on('end', () => {
+          try {
+            const json = JSON.parse(data)
+            const currentVersion = app.getVersion()
+            // Remove 'v' prefix if present in tag_name
+            const latestVersion = json.tag_name.replace(/^v/, '')
+
+            // Simple comparison: if strings are different, assume update (or use semver if needed)
+            // Using localeCompare with numeric: true handles 0.3.2 vs 0.3.10 correctly
+            const isUpdateAvailable = latestVersion.localeCompare(currentVersion, undefined, { numeric: true, sensitivity: 'base' }) > 0
+
+            resolve({
+              updateAvailable: isUpdateAvailable,
+              version: latestVersion,
+              url: json.html_url
+            })
+          } catch (e) {
+            console.error('Error parsing update response:', e)
+            resolve({ updateAvailable: false })
+          }
+        })
+      })
+      request.on('error', (error) => {
+        console.error('Error checking for updates:', error)
+        resolve({ updateAvailable: false })
+      })
+      request.end()
+    })
+  })
 
   createWindow()
 

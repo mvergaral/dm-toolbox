@@ -18,6 +18,7 @@ import Sessions from './views/Sessions';
 import SessionDetail from './views/SessionDetail';
 import MapView from './views/MapView';
 import Settings from './views/Settings';
+import RollTables from './views/RollTables';
 
 function App() {
   return (
@@ -39,8 +40,10 @@ function App() {
                 <Route path="/campaign/:id/monsters" element={<Monsters />} />
                 <Route path="/campaign/:id/sessions" element={<Sessions />} />
                 <Route path="/campaign/:id/sessions/:sessionId" element={<SessionDetail />} />
+                <Route path="/campaign/:id/roll-tables" element={<RollTables />} />
                 <Route path="/combat" element={<CombatTracker />} />
                 <Route path="/maps" element={<MapView />} />
+                <Route path="/tools/roll-tables" element={<RollTables />} />
                 <Route path="/settings" element={<Settings />} />
               </Routes>
               </MainLayout>

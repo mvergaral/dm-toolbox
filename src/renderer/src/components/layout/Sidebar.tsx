@@ -7,7 +7,8 @@ import {
   UserCheck,
   Calendar,
   ArrowLeft,
-  Skull
+  Skull,
+  Dices
 } from 'lucide-react';
 import { useNavigate, useLocation, matchPath } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -27,6 +28,7 @@ export function Sidebar() {
   const globalItems = [
     { icon: LayoutDashboard, label: t('nav.dashboard'), path: '/dashboard' },
     { icon: Scroll, label: t('nav.campaigns'), path: '/campaigns' },
+    { icon: Dices, label: t('nav.rollTables'), path: '/tools/roll-tables' },
   ];
 
   const campaignItems = campaignId ? [
@@ -36,6 +38,7 @@ export function Sidebar() {
     { icon: UserCheck, label: t('nav.characters'), path: `/campaign/${campaignId}/characters` },
     { icon: Users, label: t('nav.npcs'), path: `/campaign/${campaignId}/npcs` },
     { icon: Skull, label: t('monsters.title'), path: `/campaign/${campaignId}/monsters` },
+    { icon: Dices, label: t('nav.rollTables'), path: `/campaign/${campaignId}/roll-tables` },
     // { icon: Map, label: t('nav.maps'), path: `/campaign/${campaignId}/maps` },
   ] : [];
 

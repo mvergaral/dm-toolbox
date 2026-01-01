@@ -352,3 +352,53 @@ export const sessionSchema = {
   required: ['id', 'campaignId', 'title', 'date', 'createdAt', 'updatedAt'],
   indexes: ['campaignId', 'date']
 } as const
+
+export const rollTableSchema = {
+  version: 0,
+  primaryKey: 'id',
+  type: 'object',
+  properties: {
+    id: {
+      type: 'string',
+      maxLength: 100
+    },
+    title: {
+      type: 'string'
+    },
+    description: {
+      type: 'string',
+      default: ''
+    },
+    system: {
+      type: 'string',
+      default: 'Generic'
+    },
+    createdAt: {
+      type: 'number'
+    },
+    rows: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string'
+          },
+          range: {
+            type: 'array',
+            items: {
+              type: 'number'
+            },
+            minItems: 2,
+            maxItems: 2
+          },
+          result: {
+            type: 'string'
+          }
+        }
+      },
+      default: []
+    }
+  },
+  required: ['id', 'title', 'createdAt', 'rows']
+} as const

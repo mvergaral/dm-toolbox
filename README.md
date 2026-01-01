@@ -44,6 +44,11 @@ Download the latest executable for Windows, macOS, or Linux from the [Releases](
 
 > **Note for Windows Users:** You may see a "Windows protected your PC" (SmartScreen) warning when installing. This is normal for new open-source applications without a paid digital certificate. To proceed, click **"More info"** and then **"Run anyway"**.
 
+> **Note for macOS Users:** You may see a message stating the app is "damaged" and should be moved to the Trash. This is a known issue with Gatekeeper for non-notarized open-source apps. To fix it:
+> 1. Move the app to your **Applications** folder.
+> 2. Open **Terminal**.
+> 3. Run: `xattr -dr com.apple.quarantine /Applications/DM\ Toolbox.app`
+
 ### For Developers
 DM Toolbox is built with Electron, React, and TypeScript.
 

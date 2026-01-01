@@ -13,7 +13,8 @@
     "combat": "Combate",
     "characters": "Personajes",
     "maps": "Mapas",
-    "settings": "Configuración"
+    "settings": "Configuración",
+    "rollTables": "Tablas Aleatorias"
   },
   "common": {
     "save": "Guardar",
@@ -29,6 +30,7 @@
     "yes": "Sí",
     "no": "No",
     "confirm": "Confirmar",
+    "deleteConfirm": "¿Estás seguro de que quieres eliminar esto?",
     "loading": "Cargando...",
     "noData": "No hay datos disponibles",
     "actions": "Acciones",
@@ -36,7 +38,8 @@
     "moreDetails": "Más detalles",
     "lessDetails": "Menos detalles",
     "searchNoResults": "Intenta con otros términos de búsqueda",
-    "unspecified": "Sin especificar"
+    "unspecified": "Sin especificar",
+    "updateAvailable": "Nueva versión disponible: v{{version}}. Descárgala desde GitHub."
   },
   "campaigns": {
     "title": "Campañas",
@@ -367,7 +370,13 @@
       "title": "Apariencia",
       "sidebarAutoHide": "Ocultar barra lateral automáticamente",
       "sidebarAutoHideDesc": "La barra lateral se contraerá cuando no esté en uso"
-    }
+    },
+    "updates": {
+      "title": "Actualizaciones",
+      "check": "Buscar actualizaciones automáticamente",
+      "checkDesc": "La aplicación buscará nuevas versiones al iniciar"
+    },
+    "support": "Apóyame en Ko-fi"
   },
   "dashboard": {
     "welcome": "Bienvenido a DM Toolbox",
@@ -380,6 +389,12 @@
       "title": "Acciones Rápidas",
       "createCampaignDesc": "Crear nueva aventura",
       "settingsDesc": "Configurar aplicación"
+    },
+    "onboarding": {
+      "campaignsDesc": "Organiza tus aventuras, notas y sesiones en un solo lugar.",
+      "combatDesc": "Gestiona iniciativas y turnos de forma fluida y rápida.",
+      "npcsTitle": "NPCs & Monstruos",
+      "npcsDesc": "Crea y administra personajes y enemigos para tus encuentros."
     },
     "tips": {
       "proTip": "Tip Pro",

@@ -1,6 +1,37 @@
+import { useEffect } from 'react';
 import { Sidebar } from './Sidebar';
+import { useSettings } from '../../context/SettingsContext';
+import { useToast } from '../../context/ToastContext';
+import { useTranslation } from 'react-i18next';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
+  const { checkForUpdates } = useSettings();
+  const { addToast } = useToast();
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    const check = async () => {
+      // @ts-ignore
+      if (checkForUpdates && window.api && window.api.checkForUpdates) {
+        try {
+          // @ts-ignore
+          const result = await window.api.checkForUpdates();
+          if (result.updateAvailable) {
+            addToast(
+              t('common.updateAvailable', { version: result.version }),
+              'info',
+              10000
+            );
+          }
+        } catch (error) {
+          console.error('Failed to check for updates', error);
+        }
+      }
+    };
+
+    check();
+  }, [checkForUpdates, addToast, t]);
+
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-slate-950 text-slate-200 font-sans">
       {/* Columna Izquierda: Menú */}

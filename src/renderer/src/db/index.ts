@@ -9,7 +9,8 @@ import {
   characterSchema,
   gameSystemTagSchema,
   npcSchema,
-  sessionSchema
+  sessionSchema,
+  rollTableSchema
 } from './schemas'
 
 // Agregar plugin de update
@@ -87,6 +88,9 @@ async function _createDatabaseInstance(): Promise<Database> {
     },
     sessions: {
       schema: sessionSchema
+    },
+    rollTables: {
+      schema: rollTableSchema
     }
   })
 
