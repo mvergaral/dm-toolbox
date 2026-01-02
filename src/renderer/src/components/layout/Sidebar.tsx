@@ -9,56 +9,63 @@ import {
   ArrowLeft,
   Skull,
   Dices
-} from 'lucide-react';
-import { useNavigate, useLocation, matchPath } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { useSettings } from '../../context/SettingsContext';
-import logo from '../../assets/logo.svg';
+} from 'lucide-react'
+import { useNavigate, useLocation, matchPath } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { useSettings } from '../../context/SettingsContext'
+import logo from '../../assets/logo.svg'
 
 export function Sidebar() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { t } = useTranslation();
-  const { sidebarAutoHide } = useSettings();
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { t } = useTranslation()
+  const { sidebarAutoHide } = useSettings()
 
   // Detectar si estamos dentro de una campaña
-  const campaignMatch = matchPath({ path: "/campaign/:id", end: false }, location.pathname);
-  const campaignId = campaignMatch?.params.id;
+  const campaignMatch = matchPath({ path: '/campaign/:id', end: false }, location.pathname)
+  const campaignId = campaignMatch?.params.id
 
   const globalItems = [
     { icon: LayoutDashboard, label: t('nav.dashboard'), path: '/dashboard' },
     { icon: Scroll, label: t('nav.campaigns'), path: '/campaigns' },
-    { icon: Dices, label: t('nav.rollTables'), path: '/tools/roll-tables' },
-  ];
+    { icon: Dices, label: t('nav.rollTables'), path: '/tools/roll-tables' }
+  ]
 
-  const campaignItems = campaignId ? [
-    { icon: LayoutDashboard, label: t('nav.overview'), path: `/campaign/${campaignId}` },
-    { icon: Calendar, label: t('nav.sessions'), path: `/campaign/${campaignId}/sessions` },
-    { icon: Swords, label: t('nav.combat'), path: `/campaign/${campaignId}/combat` },
-    { icon: UserCheck, label: t('nav.characters'), path: `/campaign/${campaignId}/characters` },
-    { icon: Users, label: t('nav.npcs'), path: `/campaign/${campaignId}/npcs` },
-    { icon: Skull, label: t('monsters.title'), path: `/campaign/${campaignId}/monsters` },
-    { icon: Dices, label: t('nav.rollTables'), path: `/campaign/${campaignId}/roll-tables` },
-    // { icon: Map, label: t('nav.maps'), path: `/campaign/${campaignId}/maps` },
-  ] : [];
+  const campaignItems = campaignId
+    ? [
+        { icon: LayoutDashboard, label: t('nav.overview'), path: `/campaign/${campaignId}` },
+        { icon: Calendar, label: t('nav.sessions'), path: `/campaign/${campaignId}/sessions` },
+        { icon: Swords, label: t('nav.combat'), path: `/campaign/${campaignId}/combat` },
+        { icon: UserCheck, label: t('nav.characters'), path: `/campaign/${campaignId}/characters` },
+        { icon: Users, label: t('nav.npcs'), path: `/campaign/${campaignId}/npcs` },
+        { icon: Skull, label: t('monsters.title'), path: `/campaign/${campaignId}/monsters` },
+        { icon: Dices, label: t('nav.rollTables'), path: `/campaign/${campaignId}/roll-tables` }
+        // { icon: Map, label: t('nav.maps'), path: `/campaign/${campaignId}/maps` },
+      ]
+    : []
 
-  const currentItems = campaignId ? campaignItems : globalItems;
+  const currentItems = campaignId ? campaignItems : globalItems
 
   return (
     <aside
       className={`
         group/sidebar h-screen bg-slate-900 border-r border-slate-800 flex flex-col items-center py-6 gap-6 text-slate-400 z-50 transition-all duration-300 ease-in-out
-        ${sidebarAutoHide
-          ? 'w-4 hover:w-20 -ml-3 hover:ml-0 opacity-50 hover:opacity-100 absolute left-0'
-          : 'w-20 relative'
+        ${
+          sidebarAutoHide
+            ? 'w-4 hover:w-20 -ml-3 hover:ml-0 opacity-50 hover:opacity-100 absolute left-0'
+            : 'w-20 relative'
         }
       `}
     >
-      <div className={`mb-4 p-2 bg-indigo-600 rounded-lg text-white shadow-lg shadow-indigo-500/20 transition-opacity duration-200 ${sidebarAutoHide ? 'opacity-0 group-hover/sidebar:opacity-100' : ''}`}>
+      <div
+        className={`mb-4 p-2 bg-indigo-600 rounded-lg text-white shadow-lg shadow-indigo-500/20 transition-opacity duration-200 ${sidebarAutoHide ? 'opacity-0 group-hover/sidebar:opacity-100' : ''}`}
+      >
         <img src={logo} alt="DM Toolbox" className="w-7 h-7" />
       </div>
 
-      <nav className={`flex flex-col gap-4 w-full px-2 transition-opacity duration-200 ${sidebarAutoHide ? 'opacity-0 group-hover/sidebar:opacity-100' : ''}`}>
+      <nav
+        className={`flex flex-col gap-4 w-full px-2 transition-opacity duration-200 ${sidebarAutoHide ? 'opacity-0 group-hover/sidebar:opacity-100' : ''}`}
+      >
         {/* Botón Volver (Solo en modo campaña) */}
         {campaignId && (
           <button
@@ -73,7 +80,9 @@ export function Sidebar() {
         )}
 
         {currentItems.map((item) => {
-          const isActive = location.pathname === item.path || (item.path !== `/campaign/${campaignId}` && location.pathname.startsWith(item.path));
+          const isActive =
+            location.pathname === item.path ||
+            (item.path !== `/campaign/${campaignId}` && location.pathname.startsWith(item.path))
 
           return (
             <button
@@ -81,9 +90,11 @@ export function Sidebar() {
               onClick={() => navigate(item.path)}
               className={`
                 flex flex-col items-center justify-center p-3 rounded-xl transition-all duration-200 group/item relative
-                ${isActive
-                  ? 'bg-slate-800 text-indigo-400 shadow-inner ring-1 ring-slate-700'
-                  : 'hover:bg-slate-800/50 hover:text-slate-200'}
+                ${
+                  isActive
+                    ? 'bg-slate-800 text-indigo-400 shadow-inner ring-1 ring-slate-700'
+                    : 'hover:bg-slate-800/50 hover:text-slate-200'
+                }
               `}
             >
               <item.icon size={24} className={`mb-1 ${isActive ? 'scale-110' : ''}`} />
@@ -91,11 +102,13 @@ export function Sidebar() {
                 {item.label}
               </span>
             </button>
-          );
+          )
         })}
       </nav>
 
-      <div className={`mt-auto w-full px-2 transition-opacity duration-200 ${sidebarAutoHide ? 'opacity-0 group-hover/sidebar:opacity-100' : ''}`}>
+      <div
+        className={`mt-auto w-full px-2 transition-opacity duration-200 ${sidebarAutoHide ? 'opacity-0 group-hover/sidebar:opacity-100' : ''}`}
+      >
         <button
           onClick={() => navigate('/settings')}
           className={`w-full p-3 rounded-xl transition-all duration-200 group/item relative ${
@@ -111,5 +124,5 @@ export function Sidebar() {
         </button>
       </div>
     </aside>
-  );
+  )
 }

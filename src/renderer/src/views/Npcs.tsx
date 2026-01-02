@@ -4,7 +4,21 @@ import { useDB } from '../context/DbContext'
 import { useTranslation } from 'react-i18next'
 import ImageUploader from '../components/ui/ImageUploader'
 import BackButton from '../components/ui/BackButton'
-import { Plus, Trash2, Users, Heart, Shield, X, Swords, FileText, Skull, Edit2, Search, ChevronDown, ChevronUp } from 'lucide-react'
+import {
+  Plus,
+  Trash2,
+  Users,
+  Heart,
+  Shield,
+  X,
+  Swords,
+  FileText,
+  Skull,
+  Edit2,
+  Search,
+  ChevronDown,
+  ChevronUp
+} from 'lucide-react'
 
 interface Npc {
   id: string
@@ -278,7 +292,11 @@ export default function Npcs() {
         {filteredNpcs.length === 0 ? (
           <div className="col-span-full py-20 flex flex-col items-center justify-center border-2 border-dashed border-slate-800 rounded-3xl bg-slate-900/20 text-slate-500">
             <div className="bg-slate-900 p-4 rounded-full mb-4">
-              {searchTerm ? <Search size={48} className="text-slate-700" /> : <Users size={48} className="text-slate-700" />}
+              {searchTerm ? (
+                <Search size={48} className="text-slate-700" />
+              ) : (
+                <Users size={48} className="text-slate-700" />
+              )}
             </div>
             <p className="text-lg font-medium text-slate-400">
               {searchTerm ? t('common.noData') : t('npcs.noNpcs')}
@@ -340,7 +358,9 @@ export default function Npcs() {
                   <div className="flex-1">
                     <h3 className="text-xl font-bold text-white mb-1">{npc.name}</h3>
                     <p className="text-sm text-slate-400">
-                      {npc.race && npc.role ? `${npc.race} - ${npc.role}` : npc.race || npc.role || t('common.unspecified')}
+                      {npc.race && npc.role
+                        ? `${npc.race} - ${npc.role}`
+                        : npc.race || npc.role || t('common.unspecified')}
                     </p>
                   </div>
                 </div>
@@ -522,7 +542,9 @@ export default function Npcs() {
                   <input
                     type="number"
                     value={formData.hp}
-                    onChange={(e) => setFormData({ ...formData, hp: parseInt(e.target.value) || 1 })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, hp: parseInt(e.target.value) || 1 })
+                    }
                     onFocus={(e) => e.target.select()}
                     min="1"
                     className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
@@ -536,7 +558,9 @@ export default function Npcs() {
                   <input
                     type="number"
                     value={formData.ac}
-                    onChange={(e) => setFormData({ ...formData, ac: parseInt(e.target.value) || 10 })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, ac: parseInt(e.target.value) || 10 })
+                    }
                     onFocus={(e) => e.target.select()}
                     min="0"
                     className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
@@ -578,7 +602,10 @@ export default function Npcs() {
                   onChange={(e) => setFormData({ ...formData, isHostile: e.target.checked })}
                   className="w-4 h-4 text-red-600 bg-slate-700 border-slate-600 rounded focus:ring-red-500 focus:ring-2"
                 />
-                <label htmlFor="isHostile" className="text-sm font-medium text-slate-300 cursor-pointer">
+                <label
+                  htmlFor="isHostile"
+                  className="text-sm font-medium text-slate-300 cursor-pointer"
+                >
                   {t('npcs.toggleHostile')}
                 </label>
               </div>

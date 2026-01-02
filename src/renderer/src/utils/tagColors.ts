@@ -1,11 +1,14 @@
 // Utilidad para convertir nombres de colores en clases de Tailwind
 // Esto facilita el uso dinámico de colores en componentes
 
-export const TAG_COLOR_CLASSES: Record<string, {
-  bg: string;
-  text: string;
-  border: string;
-}> = {
+export const TAG_COLOR_CLASSES: Record<
+  string,
+  {
+    bg: string
+    text: string
+    border: string
+  }
+> = {
   indigo: {
     bg: 'bg-indigo-500/10',
     text: 'text-indigo-400',
@@ -46,9 +49,9 @@ export const TAG_COLOR_CLASSES: Record<string, {
     text: 'text-orange-400',
     border: 'border-orange-500/20'
   }
-};
+}
 
 export function getTagColorClasses(color: string): string {
-  const colorClasses = TAG_COLOR_CLASSES[color] || TAG_COLOR_CLASSES.indigo;
-  return `${colorClasses.bg} ${colorClasses.text} ${colorClasses.border}`;
+  const colorClasses = TAG_COLOR_CLASSES[color] || TAG_COLOR_CLASSES.indigo
+  return `${colorClasses.bg} ${colorClasses.text} ${colorClasses.border}`
 }

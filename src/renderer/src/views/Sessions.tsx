@@ -3,7 +3,18 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { useDB } from '../context/DbContext'
 import { useTranslation } from 'react-i18next'
 import BackButton from '../components/ui/BackButton'
-import { Plus, Calendar, X, CheckCircle2, XCircle, Clock, Swords, Users, Eye, Pencil } from 'lucide-react'
+import {
+  Plus,
+  Calendar,
+  X,
+  CheckCircle2,
+  XCircle,
+  Clock,
+  Swords,
+  Users,
+  Eye,
+  Pencil
+} from 'lucide-react'
 
 interface Session {
   id: string
@@ -27,18 +38,26 @@ export default function Sessions() {
   const { t, i18n } = useTranslation()
 
   const [sessions, setSessions] = useState<Session[]>([])
-  const [showCreateModal, setShowCreateModal] = useState(false)
-  const [editingSessionId, setEditingSessionId] = useState<string | null>(null)
-  const [filterStatus, setFilterStatus] = useState<'all' | 'planned' | 'completed' | 'cancelled'>('all')
+
+  const state = location.state as { editSession?: Session }
+  const [showCreateModal, setShowCreateModal] = useState(!!state?.editSession)
+  const [editingSessionId, setEditingSessionId] = useState<string | null>(
+    state?.editSession?.id || null
+  )
+  const [filterStatus, setFilterStatus] = useState<'all' | 'planned' | 'completed' | 'cancelled'>(
+    'all'
+  )
 
   const [formData, setFormData] = useState({
-    title: '',
-    sessionNumber: 1,
-    date: new Date().toISOString().split('T')[0],
-    notes: '',
-    linkedCombatIds: [] as string[],
-    linkedNpcIds: [] as string[],
-    status: 'planned' as 'planned' | 'completed' | 'cancelled'
+    title: state?.editSession?.title || '',
+    sessionNumber: state?.editSession?.sessionNumber || 1,
+    date: state?.editSession
+      ? new Date(state.editSession.date).toISOString().split('T')[0]
+      : new Date().toISOString().split('T')[0],
+    notes: state?.editSession?.notes || '',
+    linkedCombatIds: state?.editSession?.linkedCombatIds || ([] as string[]),
+    linkedNpcIds: state?.editSession?.linkedNpcIds || ([] as string[]),
+    status: (state?.editSession?.status || 'planned') as 'planned' | 'completed' | 'cancelled'
   })
 
   // Cargar sesiones
@@ -64,25 +83,12 @@ export default function Sessions() {
     loadSessions()
   }, [db, campaignId])
 
-  // Detectar si viene una sesión para editar desde SessionDetail
+  // Limpiar el state de navegación si existe
   useEffect(() => {
-    const state = location.state as { editSession?: Session }
     if (state?.editSession) {
-      setFormData({
-        title: state.editSession.title,
-        sessionNumber: state.editSession.sessionNumber,
-        date: new Date(state.editSession.date).toISOString().split('T')[0],
-        notes: state.editSession.notes,
-        linkedCombatIds: state.editSession.linkedCombatIds,
-        linkedNpcIds: state.editSession.linkedNpcIds,
-        status: state.editSession.status
-      })
-      setEditingSessionId(state.editSession.id)
-      setShowCreateModal(true)
-      // Limpiar el state
       navigate(location.pathname, { replace: true, state: {} })
     }
-  }, [location.state])
+  }, [state, navigate, location.pathname])
 
   const addSession = async () => {
     if (!db || !formData.title.trim()) return
@@ -177,7 +183,10 @@ export default function Sessions() {
     }
   }
 
-  const updateStatus = async (sessionId: string, newStatus: 'planned' | 'completed' | 'cancelled') => {
+  const updateStatus = async (
+    sessionId: string,
+    newStatus: 'planned' | 'completed' | 'cancelled'
+  ) => {
     if (!db) return
 
     try {
@@ -296,7 +305,8 @@ export default function Sessions() {
               : 'bg-slate-900 text-slate-400 border-slate-800 hover:bg-slate-800'
           }`}
         >
-          {t('sessions.filter.completed')} ({sessions.filter((s) => s.status === 'completed').length})
+          {t('sessions.filter.completed')} (
+          {sessions.filter((s) => s.status === 'completed').length})
         </button>
         <button
           onClick={() => setFilterStatus('cancelled')}
@@ -306,7 +316,8 @@ export default function Sessions() {
               : 'bg-slate-900 text-slate-400 border-slate-800 hover:bg-slate-800'
           }`}
         >
-          {t('sessions.filter.cancelled')} ({sessions.filter((s) => s.status === 'cancelled').length})
+          {t('sessions.filter.cancelled')} (
+          {sessions.filter((s) => s.status === 'cancelled').length})
         </button>
       </div>
 
@@ -348,12 +359,17 @@ export default function Sessions() {
                     </span>
                     <div className="flex items-center gap-1.5">
                       {getStatusIcon(session.status)}
-                      <span className="text-sm text-slate-400">{getStatusText(session.status)}</span>
+                      <span className="text-sm text-slate-400">
+                        {getStatusText(session.status)}
+                      </span>
                     </div>
                   </div>
                   <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors flex items-center gap-2">
                     {session.title}
-                    <Eye size={18} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <Eye
+                      size={18}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity"
+                    />
                   </h3>
                   <p className="text-sm text-slate-400">
                     {new Date(session.date).toLocaleDateString(i18n.language, {
@@ -402,13 +418,17 @@ export default function Sessions() {
                   {session.linkedCombatIds.length > 0 && (
                     <div className="flex items-center gap-1.5 text-red-400">
                       <Swords size={14} />
-                      <span>{t('sessions.linkedCombats', { count: session.linkedCombatIds.length })}</span>
+                      <span>
+                        {t('sessions.linkedCombats', { count: session.linkedCombatIds.length })}
+                      </span>
                     </div>
                   )}
                   {session.linkedNpcIds.length > 0 && (
                     <div className="flex items-center gap-1.5 text-purple-400">
                       <Users size={14} />
-                      <span>{t('sessions.linkedNpcs', { count: session.linkedNpcIds.length })}</span>
+                      <span>
+                        {t('sessions.linkedNpcs', { count: session.linkedNpcIds.length })}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -460,7 +480,9 @@ export default function Sessions() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-slate-900 z-10">
-              <h2 className="text-2xl font-bold text-white">{editingSessionId ? t('sessions.editTitle') : t('sessions.newTitle')}</h2>
+              <h2 className="text-2xl font-bold text-white">
+                {editingSessionId ? t('sessions.editTitle') : t('sessions.newTitle')}
+              </h2>
               <button
                 onClick={() => {
                   setShowCreateModal(false)
@@ -511,7 +533,9 @@ export default function Sessions() {
                   <input
                     type="number"
                     value={formData.sessionNumber}
-                    onChange={(e) => setFormData({ ...formData, sessionNumber: parseInt(e.target.value) || 1 })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, sessionNumber: parseInt(e.target.value) || 1 })
+                    }
                     min="1"
                     className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />

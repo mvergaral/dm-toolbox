@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useDB } from '../../context/DbContext'
 import { useTranslation } from 'react-i18next'
 import { Plus, Check, Tag } from 'lucide-react'
+import type { RxDocument } from 'rxdb'
 
 interface GameSystemTag {
   id: string
@@ -16,14 +17,56 @@ interface TagSelectorProps {
 }
 
 const PRESET_COLORS = [
-  { name: 'indigo', value: 'indigo', bg: 'bg-indigo-500', text: 'text-indigo-400', border: 'border-indigo-500' },
+  {
+    name: 'indigo',
+    value: 'indigo',
+    bg: 'bg-indigo-500',
+    text: 'text-indigo-400',
+    border: 'border-indigo-500'
+  },
   { name: 'red', value: 'red', bg: 'bg-red-500', text: 'text-red-400', border: 'border-red-500' },
-  { name: 'green', value: 'green', bg: 'bg-green-500', text: 'text-green-400', border: 'border-green-500' },
-  { name: 'blue', value: 'blue', bg: 'bg-blue-500', text: 'text-blue-400', border: 'border-blue-500' },
-  { name: 'yellow', value: 'yellow', bg: 'bg-yellow-500', text: 'text-yellow-400', border: 'border-yellow-500' },
-  { name: 'purple', value: 'purple', bg: 'bg-purple-500', text: 'text-purple-400', border: 'border-purple-500' },
-  { name: 'pink', value: 'pink', bg: 'bg-pink-500', text: 'text-pink-400', border: 'border-pink-500' },
-  { name: 'orange', value: 'orange', bg: 'bg-orange-500', text: 'text-orange-400', border: 'border-orange-500' }
+  {
+    name: 'green',
+    value: 'green',
+    bg: 'bg-green-500',
+    text: 'text-green-400',
+    border: 'border-green-500'
+  },
+  {
+    name: 'blue',
+    value: 'blue',
+    bg: 'bg-blue-500',
+    text: 'text-blue-400',
+    border: 'border-blue-500'
+  },
+  {
+    name: 'yellow',
+    value: 'yellow',
+    bg: 'bg-yellow-500',
+    text: 'text-yellow-400',
+    border: 'border-yellow-500'
+  },
+  {
+    name: 'purple',
+    value: 'purple',
+    bg: 'bg-purple-500',
+    text: 'text-purple-400',
+    border: 'border-purple-500'
+  },
+  {
+    name: 'pink',
+    value: 'pink',
+    bg: 'bg-pink-500',
+    text: 'text-pink-400',
+    border: 'border-pink-500'
+  },
+  {
+    name: 'orange',
+    value: 'orange',
+    bg: 'bg-orange-500',
+    text: 'text-orange-400',
+    border: 'border-orange-500'
+  }
 ]
 
 export default function TagSelector({ selectedTag, onTagSelect }: TagSelectorProps) {
@@ -36,18 +79,20 @@ export default function TagSelector({ selectedTag, onTagSelect }: TagSelectorPro
   const [selectedColor, setSelectedColor] = useState('indigo')
 
   useEffect(() => {
-    const subscription = db.gameSystemTags.find().$.subscribe((docs: any[]) => {
-      const tagList = docs.map(doc => doc.toJSON()).sort((a, b) => a.name.localeCompare(b.name))
-      setTags(tagList)
+    const subscription = db.gameSystemTags
+      .find()
+      .$.subscribe((docs: RxDocument<GameSystemTag>[]) => {
+        const tagList = docs.map((doc) => doc.toJSON()).sort((a, b) => a.name.localeCompare(b.name))
+        setTags(tagList)
 
-      // Si hay un tag seleccionado, obtener su color
-      if (selectedTag) {
-        const tag = tagList.find(t => t.name === selectedTag)
-        if (tag) {
-          setSelectedColor(tag.color)
+        // Si hay un tag seleccionado, obtener su color
+        if (selectedTag) {
+          const tag = tagList.find((t) => t.name === selectedTag)
+          if (tag) {
+            setSelectedColor(tag.color)
+          }
         }
-      }
-    })
+      })
 
     return () => subscription.unsubscribe()
   }, [db, selectedTag])
@@ -80,7 +125,7 @@ export default function TagSelector({ selectedTag, onTagSelect }: TagSelectorPro
   }
 
   const getColorClasses = (color: string) => {
-    const colorObj = PRESET_COLORS.find(c => c.value === color)
+    const colorObj = PRESET_COLORS.find((c) => c.value === color)
     return colorObj || PRESET_COLORS[0]
   }
 
@@ -182,9 +227,11 @@ export default function TagSelector({ selectedTag, onTagSelect }: TagSelectorPro
       )}
 
       {/* Tag seleccionado actual (input oculto para mantener compatibilidad) */}
-      {selectedTag && !tags.find(t => t.name === selectedTag) && (
+      {selectedTag && !tags.find((t) => t.name === selectedTag) && (
         <div className="mt-2">
-          <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 ${getColorClasses(selectedColor).bg}/20 ${getColorClasses(selectedColor).border} ${getColorClasses(selectedColor).text} text-sm font-medium`}>
+          <div
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 ${getColorClasses(selectedColor).bg}/20 ${getColorClasses(selectedColor).border} ${getColorClasses(selectedColor).text} text-sm font-medium`}
+          >
             <Tag size={14} />
             {selectedTag}
           </div>

@@ -20,8 +20,8 @@ export function DbProvider({ children }: { children: React.ReactNode }) {
         const database = await getDatabase()
         setDb(database)
         setIsLoading(false)
-      } catch (err: any) {
-        setError(err.message || 'Error al conectar con la base de datos')
+      } catch (err: unknown) {
+        setError((err as Error).message || 'Error al conectar con la base de datos')
         setIsLoading(false)
       }
     }

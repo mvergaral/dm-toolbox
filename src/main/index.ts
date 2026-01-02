@@ -96,7 +96,9 @@ app.whenReady().then(() => {
 
   ipcMain.handle('check-for-updates', async () => {
     return new Promise((resolve) => {
-      const request = net.request('https://api.github.com/repos/mvergaral/dm-toolbox/releases/latest')
+      const request = net.request(
+        'https://api.github.com/repos/mvergaral/dm-toolbox/releases/latest'
+      )
       request.on('response', (response) => {
         let data = ''
         response.on('data', (chunk) => {
@@ -111,7 +113,11 @@ app.whenReady().then(() => {
 
             // Simple comparison: if strings are different, assume update (or use semver if needed)
             // Using localeCompare with numeric: true handles 0.3.2 vs 0.3.10 correctly
-            const isUpdateAvailable = latestVersion.localeCompare(currentVersion, undefined, { numeric: true, sensitivity: 'base' }) > 0
+            const isUpdateAvailable =
+              latestVersion.localeCompare(currentVersion, undefined, {
+                numeric: true,
+                sensitivity: 'base'
+              }) > 0
 
             resolve({
               updateAvailable: isUpdateAvailable,

@@ -21,11 +21,7 @@ export default function MarkdownEditor({
 
   return (
     <div>
-      {label && (
-        <label className="block text-sm font-medium text-slate-300 mb-2">
-          {label}
-        </label>
-      )}
+      {label && <label className="block text-sm font-medium text-slate-300 mb-2">{label}</label>}
 
       <div data-color-mode="dark" className="markdown-editor-wrapper">
         <style>

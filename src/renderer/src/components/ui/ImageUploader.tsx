@@ -129,11 +129,7 @@ export default function ImageUploader({
 
   return (
     <div>
-      {label && (
-        <label className="block text-sm font-medium text-slate-300 mb-2">
-          {label}
-        </label>
-      )}
+      {label && <label className="block text-sm font-medium text-slate-300 mb-2">{label}</label>}
 
       <div className="flex items-center gap-4">
         {/* Preview/Upload area */}
@@ -147,11 +143,7 @@ export default function ImageUploader({
         >
           {preview ? (
             <>
-              <img
-                src={preview}
-                alt="Preview"
-                className="w-full h-full object-cover rounded-lg"
-              />
+              <img src={preview} alt="Preview" className="w-full h-full object-cover rounded-lg" />
               <button
                 type="button"
                 onClick={(e) => {
@@ -198,9 +190,7 @@ export default function ImageUploader({
         />
       </div>
 
-      <p className="text-xs text-slate-500 mt-2">
-        Formatos: JPG, PNG, GIF. Máximo 5MB
-      </p>
+      <p className="text-xs text-slate-500 mt-2">Formatos: JPG, PNG, GIF. Máximo 5MB</p>
     </div>
   )
 }

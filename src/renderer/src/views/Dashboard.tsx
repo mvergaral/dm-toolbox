@@ -2,15 +2,7 @@ import { useTranslation, Trans } from 'react-i18next'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDB } from '../context/DbContext'
-import {
-  Plus,
-  Calendar,
-  Swords,
-  Users,
-  ArrowRight,
-  BookOpen,
-  Settings
-} from 'lucide-react'
+import { Plus, Calendar, Swords, Users, ArrowRight, BookOpen, Settings } from 'lucide-react'
 import logo from '../assets/logo.svg'
 
 interface Campaign {
@@ -53,10 +45,13 @@ export default function Dashboard() {
       try {
         // Cargar todas las campañas para lookup
         const allCampaigns = await db.campaigns.find().exec()
-        const campaignMap = allCampaigns.reduce((acc, doc) => {
-          acc[doc.id] = { name: doc.name, color: doc.systemColor }
-          return acc
-        }, {} as Record<string, { name: string, color: string }>)
+        const campaignMap = allCampaigns.reduce(
+          (acc, doc) => {
+            acc[doc.id] = { name: doc.name, color: doc.systemColor }
+            return acc
+          },
+          {} as Record<string, { name: string; color: string }>
+        )
 
         // Cargar campañas recientes
         const campaigns = await db.campaigns
@@ -66,30 +61,37 @@ export default function Dashboard() {
           })
           .exec()
 
-        setRecentCampaigns(campaigns.map(doc => doc.toJSON() as Campaign))
+        setRecentCampaigns(campaigns.map((doc) => doc.toJSON() as Campaign))
 
         // Cargar próximas sesiones
         const today = new Date()
         today.setHours(0, 0, 0, 0)
 
-        const sessions = await db.sessions.find({
-          selector: {
-            date: { $gte: today.getTime() },
-            status: 'planned'
-          },
-          sort: [{ date: 'asc' }],
-          limit: 5
-        }).exec()
+        const sessions = await db.sessions
+          .find({
+            selector: {
+              date: { $gte: today.getTime() },
+              status: 'planned'
+            },
+            sort: [{ date: 'asc' }],
+            limit: 5
+          })
+          .exec()
 
-        setUpcomingSessions(sessions.map(doc => {
-          const data = doc.toJSON() as Session
-          const campaignInfo = campaignMap[data.campaignId] || { name: 'Unknown', color: 'indigo' }
-          return {
-            ...data,
-            campaignName: campaignInfo.name,
-            systemColor: campaignInfo.color
-          }
-        }))
+        setUpcomingSessions(
+          sessions.map((doc) => {
+            const data = doc.toJSON() as Session
+            const campaignInfo = campaignMap[data.campaignId] || {
+              name: 'Unknown',
+              color: 'indigo'
+            }
+            return {
+              ...data,
+              campaignName: campaignInfo.name,
+              systemColor: campaignInfo.color
+            }
+          })
+        )
 
         setIsLoading(false)
       } catch (error) {
@@ -184,12 +186,8 @@ export default function Dashboard() {
         <div className="lg:col-span-4 bg-gradient-to-br from-indigo-900/50 to-slate-900 border border-indigo-500/20 rounded-2xl p-6 flex flex-col justify-center relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
           <div className="relative z-10">
-            <h1 className="text-3xl font-bold text-white mb-2">
-              {t('dashboard.welcome')}
-            </h1>
-            <p className="text-indigo-200/80 mb-6 max-w-md">
-              {t('app.subtitle')}
-            </p>
+            <h1 className="text-3xl font-bold text-white mb-2">{t('dashboard.welcome')}</h1>
+            <p className="text-indigo-200/80 mb-6 max-w-md">{t('app.subtitle')}</p>
             <div className="flex gap-3">
               <button
                 onClick={() => navigate('/campaigns', { state: { openCreateModal: true } })}
@@ -212,7 +210,6 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left Column: Sessions & Campaigns */}
         <div className="lg:col-span-2 space-y-8">
-
           {/* Upcoming Sessions */}
           <div>
             <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
@@ -225,12 +222,16 @@ export default function Dashboard() {
                 {upcomingSessions.map((session) => (
                   <div
                     key={session.id}
-                    onClick={() => navigate(`/campaign/${session.campaignId}/sessions/${session.id}`)}
+                    onClick={() =>
+                      navigate(`/campaign/${session.campaignId}/sessions/${session.id}`)
+                    }
                     className="bg-slate-900 border border-slate-800 hover:border-indigo-500/50 p-4 rounded-xl cursor-pointer transition-all group flex items-center gap-4"
                   >
                     <div className="flex-shrink-0 w-16 h-16 bg-slate-800 rounded-lg flex flex-col items-center justify-center border border-slate-700 group-hover:border-indigo-500/30 transition-colors">
                       <span className="text-xs text-slate-400 uppercase font-bold">
-                        {new Date(session.date).toLocaleDateString(i18n.language, { month: 'short' })}
+                        {new Date(session.date).toLocaleDateString(i18n.language, {
+                          month: 'short'
+                        })}
                       </span>
                       <span className="text-2xl font-bold text-white">
                         {new Date(session.date).getDate()}
@@ -239,7 +240,9 @@ export default function Dashboard() {
 
                     <div className="flex-grow">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className={`text-xs px-2 py-0.5 rounded border ${getColorClass(session.systemColor)}`}>
+                        <span
+                          className={`text-xs px-2 py-0.5 rounded border ${getColorClass(session.systemColor)}`}
+                        >
                           {session.campaignName}
                         </span>
                         <span className="text-xs text-slate-500">
@@ -304,7 +307,7 @@ export default function Dashboard() {
                     />
                   ) : (
                     <div className="absolute inset-0 bg-gradient-to-r from-slate-900 to-slate-800">
-                        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-indigo-500/40 via-transparent to-transparent"></div>
+                      <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-indigo-500/40 via-transparent to-transparent"></div>
                     </div>
                   )}
 
@@ -314,16 +317,18 @@ export default function Dashboard() {
                   {/* Content */}
                   <div className="absolute inset-0 p-5 flex flex-col justify-center z-10">
                     <div className="flex items-center gap-2 mb-2">
-                       <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${getColorClass(campaign.systemColor)} bg-slate-950/50 backdrop-blur-sm`}>
-                          {campaign.system}
-                       </span>
-                       <span className="text-xs text-slate-500 flex items-center gap-1">
-                          <Calendar size={10} />
-                          {new Date(campaign.createdAt).toLocaleDateString(i18n.language, {
-                            month: 'short',
-                            day: 'numeric'
-                          })}
-                       </span>
+                      <span
+                        className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${getColorClass(campaign.systemColor)} bg-slate-950/50 backdrop-blur-sm`}
+                      >
+                        {campaign.system}
+                      </span>
+                      <span className="text-xs text-slate-500 flex items-center gap-1">
+                        <Calendar size={10} />
+                        {new Date(campaign.createdAt).toLocaleDateString(i18n.language, {
+                          month: 'short',
+                          day: 'numeric'
+                        })}
+                      </span>
                     </div>
                     <h3 className="text-xl font-bold text-white group-hover:text-indigo-300 transition-colors mb-1 truncate max-w-[85%]">
                       {campaign.name}
@@ -346,7 +351,9 @@ export default function Dashboard() {
         {/* Right Column: Quick Actions & Tips */}
         <div className="space-y-6">
           <div>
-            <h2 className="text-xl font-bold text-white mb-4">{t('dashboard.quickActions.title')}</h2>
+            <h2 className="text-xl font-bold text-white mb-4">
+              {t('dashboard.quickActions.title')}
+            </h2>
             <div className="bg-slate-900 border border-slate-800 rounded-xl p-2 space-y-1">
               <button
                 onClick={() => navigate('/campaigns', { state: { openCreateModal: true } })}
@@ -357,7 +364,9 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <span className="block text-white font-medium">{t('campaigns.new')}</span>
-                  <span className="text-xs text-slate-400">{t('dashboard.quickActions.createCampaignDesc')}</span>
+                  <span className="text-xs text-slate-400">
+                    {t('dashboard.quickActions.createCampaignDesc')}
+                  </span>
                 </div>
               </button>
 
@@ -370,7 +379,9 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <span className="block text-white font-medium">{t('nav.settings')}</span>
-                  <span className="text-xs text-slate-400">{t('dashboard.quickActions.settingsDesc')}</span>
+                  <span className="text-xs text-slate-400">
+                    {t('dashboard.quickActions.settingsDesc')}
+                  </span>
                 </div>
               </button>
             </div>
@@ -384,7 +395,9 @@ export default function Dashboard() {
             </h3>
             <p className="text-slate-400 text-sm leading-relaxed">
               <Trans i18nKey="dashboard.tips.combatTracker">
-                Puedes usar el <span className="text-indigo-400 font-medium">Combat Tracker</span> sin necesidad de crear una sesión. Simplemente ve a tu campaña y selecciona "Combate".
+                Puedes usar el <span className="text-indigo-400 font-medium">Combat Tracker</span>{' '}
+                sin necesidad de crear una sesión. Simplemente ve a tu campaña y selecciona
+                &quot;Combate&quot;.
               </Trans>
             </p>
           </div>

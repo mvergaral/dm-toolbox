@@ -4,7 +4,20 @@ import { useDB } from '../context/DbContext'
 import { useTranslation } from 'react-i18next'
 import ImageUploader from '../components/ui/ImageUploader'
 import BackButton from '../components/ui/BackButton'
-import { Plus, Trash2, Heart, Shield, X, Swords, FileText, Skull, Edit2, ChevronDown, ChevronUp, Search } from 'lucide-react'
+import {
+  Plus,
+  Trash2,
+  Heart,
+  Shield,
+  X,
+  Swords,
+  FileText,
+  Skull,
+  Edit2,
+  ChevronDown,
+  ChevronUp,
+  Search
+} from 'lucide-react'
 
 interface Monster {
   id: string
@@ -214,7 +227,11 @@ export default function Monsters() {
         {filteredMonsters.length === 0 ? (
           <div className="col-span-full py-20 flex flex-col items-center justify-center border-2 border-dashed border-slate-800 rounded-3xl bg-slate-900/20 text-slate-500">
             <div className="bg-slate-900 p-4 rounded-full mb-4">
-              {searchTerm ? <Search size={48} className="text-slate-700" /> : <Skull size={48} className="text-slate-700" />}
+              {searchTerm ? (
+                <Search size={48} className="text-slate-700" />
+              ) : (
+                <Skull size={48} className="text-slate-700" />
+              )}
             </div>
             <p className="text-lg font-medium text-slate-400">
               {searchTerm ? t('common.noData') : t('monsters.noMonsters')}
@@ -262,7 +279,9 @@ export default function Monsters() {
                   <div className="flex-1">
                     <h3 className="text-xl font-bold text-white mb-1">{monster.name}</h3>
                     <p className="text-sm text-slate-400">
-                      {monster.race && monster.role ? `${monster.race} - ${monster.role}` : monster.race || monster.role || t('common.unspecified')}
+                      {monster.race && monster.role
+                        ? `${monster.race} - ${monster.role}`
+                        : monster.race || monster.role || t('common.unspecified')}
                     </p>
                   </div>
                 </div>
@@ -303,7 +322,9 @@ export default function Monsters() {
 
               {/* Expandable content */}
               <button
-                onClick={() => setExpandedMonsterId(expandedMonsterId === monster.id ? null : monster.id)}
+                onClick={() =>
+                  setExpandedMonsterId(expandedMonsterId === monster.id ? null : monster.id)
+                }
                 className="w-full mt-4 flex items-center justify-center gap-2 text-xs font-medium text-slate-500 hover:text-slate-300 transition-colors py-2 border-t border-slate-800/50"
               >
                 {expandedMonsterId === monster.id ? (
@@ -434,7 +455,9 @@ export default function Monsters() {
                   <input
                     type="number"
                     value={formData.hp}
-                    onChange={(e) => setFormData({ ...formData, hp: parseInt(e.target.value) || 1 })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, hp: parseInt(e.target.value) || 1 })
+                    }
                     onFocus={(e) => e.target.select()}
                     min="1"
                     className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
@@ -448,7 +471,9 @@ export default function Monsters() {
                   <input
                     type="number"
                     value={formData.ac}
-                    onChange={(e) => setFormData({ ...formData, ac: parseInt(e.target.value) || 10 })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, ac: parseInt(e.target.value) || 10 })
+                    }
                     onFocus={(e) => e.target.select()}
                     min="0"
                     className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
