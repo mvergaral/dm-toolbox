@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.3](https://github.com/mvergaral/dm-toolbox/compare/v0.4.2...v0.4.3) (2026-01-02)
+
+### Bug Fixes
+
+- **combat:** resolve type error in CombatActive build ([274f350](https://github.com/mvergaral/dm-toolbox/commit/274f350712d75926e85f3bc67afea583b2ba18fe))
+
 ### [0.4.2](https://github.com/mvergaral/dm-toolbox/compare/v0.4.1...v0.4.2) (2026-01-02)
 
 ### Bug Fixes
