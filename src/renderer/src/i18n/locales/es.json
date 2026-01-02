@@ -400,5 +400,33 @@
       "proTip": "Tip Pro",
       "combatTracker": "Puedes usar el <1>Combat Tracker</1> sin necesidad de crear una sesión. Simplemente ve a tu campaña y selecciona \"Combate\"."
     }
+  },
+  "rollTables": {
+    "title": "Tablas Aleatorias",
+    "description": "Crea y gestiona tablas aleatorias para tus juegos.",
+    "new": "Nueva Tabla",
+    "edit": "Editar Tabla",
+    "create": "Crear Tabla",
+    "search": "Buscar tablas...",
+    "rows": "filas",
+    "roll": "¡Tirar!",
+    "result": "Resultado",
+    "tableRows": "Filas de la Tabla",
+    "addRow": "Añadir Fila",
+    "form": {
+      "title": "Título",
+      "titlePlaceholder": "Ej: Encuentros Aleatorios",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Descripción opcional...",
+      "resultPlaceholder": "Resultado..."
+    },
+    "delete": {
+      "error": "Error al eliminar la tabla",
+      "success": "Tabla eliminada exitosamente"
+    },
+    "save": {
+      "error": "Error al guardar la tabla",
+      "success": "Tabla guardada exitosamente"
+    }
   }
 }

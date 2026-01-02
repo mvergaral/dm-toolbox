@@ -48,25 +48,27 @@ export default function RollTables() {
   // Load Campaign System if in campaign context
   useEffect(() => {
     if (campaignId && db) {
-      db.campaigns.findOne(campaignId).exec().then((doc) => {
-        if (doc) {
-          setCampaignSystem(doc.system)
-          setActiveSystemFilter(doc.system)
-        }
-      })
-    } else {
-      setCampaignSystem(null)
-      setActiveSystemFilter('All')
+      db.campaigns
+        .findOne(campaignId)
+        .exec()
+        .then((doc) => {
+          if (doc) {
+            setCampaignSystem(doc.system)
+            setActiveSystemFilter(doc.system)
+          }
+        })
     }
   }, [campaignId, db])
 
   useEffect(() => {
     if (!db) return
-    const sub = db.rollTables.find({
-      sort: [{ createdAt: 'desc' }]
-    }).$.subscribe((docs) => {
-      setTables(docs.map((d) => d.toJSON() as RollTable))
-    })
+    const sub = db.rollTables
+      .find({
+        sort: [{ createdAt: 'desc' }]
+      })
+      .$.subscribe((docs) => {
+        setTables(docs.map((d) => d.toJSON() as RollTable))
+      })
 
     const tagsSub = db.gameSystemTags.find().$.subscribe((docs) => {
       setSystemTags(docs.map((d) => d.name))
@@ -118,13 +120,13 @@ export default function RollTables() {
           id: crypto.randomUUID(),
           createdAt: Date.now()
         })
-        addToast(t('common.create'), 'success')
+        addToast(t('rollTables.save.success'), 'success')
       }
       setIsEditing(false)
       setSelectedTable(null)
     } catch (error) {
       console.error(error)
-      addToast('Error saving table', 'error')
+      addToast(t('rollTables.save.error'), 'error')
     }
   }
 
@@ -142,14 +144,14 @@ export default function RollTables() {
         try {
           const doc = await db.rollTables.findOne(id).exec()
           if (doc) await doc.remove()
-          addToast(t('common.delete'), 'success')
+          addToast(t('rollTables.delete.success'), 'success')
           if (selectedTable?.id === id) {
             setSelectedTable(null)
             setIsEditing(false)
           }
         } catch (error) {
           console.error(error)
-          addToast('Error deleting table', 'error')
+          addToast(t('rollTables.delete.error'), 'error')
         }
       }
     })
@@ -160,12 +162,12 @@ export default function RollTables() {
 
     // Find max range
     let max = 0
-    selectedTable.rows.forEach(row => {
+    selectedTable.rows.forEach((row) => {
       if (row.range[1] > max) max = row.range[1]
     })
 
     const roll = Math.floor(Math.random() * max) + 1
-    const match = selectedTable.rows.find(row => roll >= row.range[0] && roll <= row.range[1])
+    const match = selectedTable.rows.find((row) => roll >= row.range[0] && roll <= row.range[1])
 
     setRollResult({
       roll,
@@ -181,10 +183,7 @@ export default function RollTables() {
 
     setFormData({
       ...formData,
-      rows: [
-        ...currentRows,
-        { id: crypto.randomUUID(), range: [start, end], result: '' }
-      ]
+      rows: [...currentRows, { id: crypto.randomUUID(), range: [start, end], result: '' }]
     })
   }
 
@@ -221,16 +220,56 @@ export default function RollTables() {
             { id: crypto.randomUUID(), range: [17, 26], result: '4d6 (14) x 10 sp' },
             { id: crypto.randomUUID(), range: [27, 36], result: '2d6 (7) x 10 gp' },
             { id: crypto.randomUUID(), range: [37, 44], result: '1d6 (3) x 10 pp' },
-            { id: crypto.randomUUID(), range: [45, 52], result: '2d6 (7) x 10 gp + 1d6 gems (10 gp each)' },
-            { id: crypto.randomUUID(), range: [53, 60], result: '2d6 (7) x 10 gp + 2d4 art objects (25 gp each)' },
-            { id: crypto.randomUUID(), range: [61, 65], result: '2d6 (7) x 10 gp + 1d4 magic items (Table A)' },
-            { id: crypto.randomUUID(), range: [66, 70], result: '2d6 (7) x 10 gp + 1d6 magic items (Table B)' },
-            { id: crypto.randomUUID(), range: [71, 75], result: '2d6 (7) x 10 gp + 1d6 magic items (Table C)' },
-            { id: crypto.randomUUID(), range: [76, 80], result: '2d6 (7) x 10 gp + 1d6 magic items (Table F)' },
-            { id: crypto.randomUUID(), range: [81, 85], result: '2d6 (7) x 10 gp + 1d6 magic items (Table G)' },
-            { id: crypto.randomUUID(), range: [86, 90], result: '2d6 (7) x 10 gp + 1d4 magic items (Table H)' },
-            { id: crypto.randomUUID(), range: [91, 95], result: '2d6 (7) x 10 gp + 1d4 magic items (Table I)' },
-            { id: crypto.randomUUID(), range: [96, 100], result: '2d6 (7) x 10 gp + 1d4 magic items (Table J)' }
+            {
+              id: crypto.randomUUID(),
+              range: [45, 52],
+              result: '2d6 (7) x 10 gp + 1d6 gems (10 gp each)'
+            },
+            {
+              id: crypto.randomUUID(),
+              range: [53, 60],
+              result: '2d6 (7) x 10 gp + 2d4 art objects (25 gp each)'
+            },
+            {
+              id: crypto.randomUUID(),
+              range: [61, 65],
+              result: '2d6 (7) x 10 gp + 1d4 magic items (Table A)'
+            },
+            {
+              id: crypto.randomUUID(),
+              range: [66, 70],
+              result: '2d6 (7) x 10 gp + 1d6 magic items (Table B)'
+            },
+            {
+              id: crypto.randomUUID(),
+              range: [71, 75],
+              result: '2d6 (7) x 10 gp + 1d6 magic items (Table C)'
+            },
+            {
+              id: crypto.randomUUID(),
+              range: [76, 80],
+              result: '2d6 (7) x 10 gp + 1d6 magic items (Table F)'
+            },
+            {
+              id: crypto.randomUUID(),
+              range: [81, 85],
+              result: '2d6 (7) x 10 gp + 1d6 magic items (Table G)'
+            },
+            {
+              id: crypto.randomUUID(),
+              range: [86, 90],
+              result: '2d6 (7) x 10 gp + 1d4 magic items (Table H)'
+            },
+            {
+              id: crypto.randomUUID(),
+              range: [91, 95],
+              result: '2d6 (7) x 10 gp + 1d4 magic items (Table I)'
+            },
+            {
+              id: crypto.randomUUID(),
+              range: [96, 100],
+              result: '2d6 (7) x 10 gp + 1d4 magic items (Table J)'
+            }
           ]
         })
       }
@@ -239,10 +278,14 @@ export default function RollTables() {
   }, [db])
 
   // Get unique systems for tabs
-  const systems = ['All', ...Array.from(new Set([...tables.map(t => t.system), ...systemTags])).sort()]
+  const systems = [
+    'All',
+    ...Array.from(new Set([...tables.map((t) => t.system), ...systemTags])).sort()
+  ]
 
-  const filteredTables = tables.filter(t => {
-    const matchesSearch = t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  const filteredTables = tables.filter((t) => {
+    const matchesSearch =
+      t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       t.system.toLowerCase().includes(searchQuery.toLowerCase())
 
     const matchesSystem = activeSystemFilter === 'All' || t.system === activeSystemFilter
@@ -263,7 +306,7 @@ export default function RollTables() {
               <ArrowLeft size={20} className="text-slate-400" />
             </button>
             <h1 className="text-2xl font-bold text-white">
-              {selectedTable ? t('common.edit') : t('common.create')} Table
+              {selectedTable ? t('rollTables.edit') : t('rollTables.create')}
             </h1>
           </div>
           <button
@@ -280,13 +323,15 @@ export default function RollTables() {
           <div className="space-y-4">
             <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-1">Title</label>
+                <label className="block text-sm font-medium text-slate-400 mb-1">
+                  {t('rollTables.form.title')}
+                </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-indigo-500 outline-none"
-                  placeholder="e.g. Random Encounters"
+                  placeholder={t('rollTables.form.titlePlaceholder')}
                 />
               </div>
               <div>
@@ -296,12 +341,14 @@ export default function RollTables() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-1">Description</label>
+                <label className="block text-sm font-medium text-slate-400 mb-1">
+                  {t('rollTables.form.description')}
+                </label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-indigo-500 outline-none h-24 resize-none"
-                  placeholder="Optional description..."
+                  placeholder={t('rollTables.form.descriptionPlaceholder')}
                 />
               </div>
             </div>
@@ -310,12 +357,12 @@ export default function RollTables() {
           {/* Rows Editor */}
           <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl flex flex-col overflow-hidden">
             <div className="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
-              <h3 className="font-bold text-white">Table Rows</h3>
+              <h3 className="font-bold text-white">{t('rollTables.tableRows')}</h3>
               <button
                 onClick={addRow}
                 className="text-sm text-indigo-400 hover:text-indigo-300 flex items-center gap-1"
               >
-                <Plus size={16} /> Add Row
+                <Plus size={16} /> {t('rollTables.addRow')}
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-2 space-y-2">
@@ -341,7 +388,7 @@ export default function RollTables() {
                     value={row.result}
                     onChange={(e) => updateRow(index, 'result', e.target.value)}
                     className="flex-1 bg-slate-950 border border-slate-800 rounded px-3 py-1 text-sm text-white"
-                    placeholder="Result..."
+                    placeholder={t('rollTables.form.resultPlaceholder')}
                   />
                   <button
                     onClick={() => removeRow(index)}
@@ -382,6 +429,7 @@ export default function RollTables() {
             <button
               onClick={() => handleEdit(selectedTable)}
               className="p-2 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg transition-colors"
+              title={t('common.edit')}
             >
               <Edit2 size={20} />
             </button>
@@ -399,7 +447,7 @@ export default function RollTables() {
                 onClick={handleRoll}
                 className="w-full bg-white text-indigo-900 font-bold py-3 rounded-xl hover:bg-indigo-50 transition-colors shadow-lg active:scale-95 transform duration-100"
               >
-                Roll!
+                {t('rollTables.roll')}
               </button>
             </div>
 
@@ -421,21 +469,28 @@ export default function RollTables() {
               <table className="w-full text-left text-sm">
                 <thead className="bg-slate-950 text-slate-400 sticky top-0">
                   <tr>
-                    <th className="px-4 py-3 font-medium w-24 text-center">Roll</th>
-                    <th className="px-4 py-3 font-medium">Result</th>
+                    <th className="px-4 py-3 font-medium w-24 text-center">
+                      {t('rollTables.roll')}
+                    </th>
+                    <th className="px-4 py-3 font-medium">{t('rollTables.result')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800">
                   {selectedTable.rows.map((row) => (
                     <tr
                       key={row.id}
-                      className={rollResult && rollResult.roll >= row.range[0] && rollResult.roll <= row.range[1]
-                        ? 'bg-indigo-500/20 text-white'
-                        : 'text-slate-300 hover:bg-slate-800/50'
+                      className={
+                        rollResult &&
+                        rollResult.roll >= row.range[0] &&
+                        rollResult.roll <= row.range[1]
+                          ? 'bg-indigo-500/20 text-white'
+                          : 'text-slate-300 hover:bg-slate-800/50'
                       }
                     >
                       <td className="px-4 py-3 text-center font-mono text-slate-500">
-                        {row.range[0] === row.range[1] ? row.range[0] : `${row.range[0]}-${row.range[1]}`}
+                        {row.range[0] === row.range[1]
+                          ? row.range[0]
+                          : `${row.range[0]}-${row.range[1]}`}
                       </td>
                       <td className="px-4 py-3">{row.result}</td>
                     </tr>
@@ -458,30 +513,31 @@ export default function RollTables() {
         <div>
           <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
             <Dices className="text-indigo-500" />
-            {campaignSystem ? `${campaignSystem} Tables` : 'Roll Tables'}
+            {campaignSystem ? `${campaignSystem} Tables` : t('rollTables.title')}
           </h1>
-          <p className="text-slate-400">Create and manage random tables for your games.</p>
+          <p className="text-slate-400">{t('rollTables.description')}</p>
         </div>
         <button
           onClick={handleCreate}
           className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-lg shadow-indigo-500/20"
         >
           <Plus size={20} />
-          New Table
+          {t('rollTables.new')}
         </button>
       </div>
 
       {/* System Tabs */}
       <div className="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
-        {systems.map(sys => (
+        {systems.map((sys) => (
           <button
             key={sys}
             onClick={() => setActiveSystemFilter(sys)}
             className={`
               px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all
-              ${activeSystemFilter === sys
-                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/25'
-                : 'bg-slate-900 text-slate-400 hover:bg-slate-800 hover:text-white border border-slate-800'
+              ${
+                activeSystemFilter === sys
+                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/25'
+                  : 'bg-slate-900 text-slate-400 hover:bg-slate-800 hover:text-white border border-slate-800'
               }
             `}
           >
@@ -494,7 +550,7 @@ export default function RollTables() {
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={20} />
         <input
           type="text"
-          placeholder="Search tables..."
+          placeholder={t('rollTables.search')}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
@@ -523,11 +579,11 @@ export default function RollTables() {
               {table.title}
             </h3>
             <p className="text-slate-500 text-sm line-clamp-2 mb-4">
-              {table.description || 'No description'}
+              {table.description || t('common.unspecified')}
             </p>
             <div className="flex items-center gap-2 text-xs text-slate-600">
               <span className="bg-slate-950 px-2 py-1 rounded border border-slate-800">
-                {table.rows.length} rows
+                {table.rows.length} {t('rollTables.rows')}
               </span>
             </div>
           </div>
