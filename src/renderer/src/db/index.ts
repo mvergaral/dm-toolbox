@@ -1,4 +1,4 @@
-import { createRxDatabase, addRxPlugin } from 'rxdb'
+import { createRxDatabase, addRxPlugin, RxDatabase } from 'rxdb'
 import { getRxStorageDexie } from 'rxdb/plugins/storage-dexie'
 import { RxDBUpdatePlugin } from 'rxdb/plugins/update'
 import { RxDBMigrationSchemaPlugin } from 'rxdb/plugins/migration-schema'
@@ -20,7 +20,7 @@ addRxPlugin(RxDBMigrationSchemaPlugin)
 
 const DB_NAME = 'dm_toolbox_db'
 
-export type Database = any
+export type Database = RxDatabase
 
 let dbInstance: Database | null = null
 let creationPromise: Promise<Database> | null = null

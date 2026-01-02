@@ -35,7 +35,9 @@ export default function EditCombatantModal({
   const [maxHp, setMaxHp] = useState<number | string>(combatant.maxHp)
   const [ac, setAc] = useState<number | string>(combatant.ac)
   const [isNpc, setIsNpc] = useState(combatant.isNpc)
-  const [type, setType] = useState<'npc' | 'monster' | 'character'>(combatant.type || (combatant.isNpc ? 'npc' : 'character'))
+  const [type, setType] = useState<'npc' | 'monster' | 'character'>(
+    combatant.type || (combatant.isNpc ? 'npc' : 'character')
+  )
   const [isHostile, setIsHostile] = useState(combatant.isHostile || false)
   const [attacks, setAttacks] = useState(combatant.attacks)
   const [notes, setNotes] = useState(combatant.notes)
@@ -88,10 +90,7 @@ export default function EditCombatantModal({
         {/* Header */}
         <div className="sticky top-0 bg-slate-900 border-b border-slate-800 p-6 flex items-center justify-between">
           <h2 className="text-2xl font-bold text-white">Editar Combatiente</h2>
-          <button
-            onClick={onClose}
-            className="text-slate-400 hover:text-white transition-colors"
-          >
+          <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors">
             <X size={24} />
           </button>
         </div>
@@ -100,9 +99,7 @@ export default function EditCombatantModal({
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           {/* Tipo: PJ/NPC */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-3">
-              Tipo
-            </label>
+            <label className="block text-sm font-medium text-slate-300 mb-3">Tipo</label>
             <div className="grid grid-cols-3 gap-3">
               <button
                 type="button"
@@ -158,7 +155,9 @@ export default function EditCombatantModal({
           {/* Hostil Toggle (solo para NPCs/Monstruos) */}
           {isNpc && (
             <div className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700">
-              <div className={`p-2 rounded-lg ${isHostile ? 'bg-red-500/20 text-red-400' : 'bg-slate-700 text-slate-400'}`}>
+              <div
+                className={`p-2 rounded-lg ${isHostile ? 'bg-red-500/20 text-red-400' : 'bg-slate-700 text-slate-400'}`}
+              >
                 <Swords size={20} />
               </div>
               <div className="flex-1">
@@ -183,10 +182,7 @@ export default function EditCombatantModal({
 
           {/* Nombre */}
           <div>
-            <label
-              htmlFor="edit-name"
-              className="block text-sm font-medium text-slate-300 mb-2"
-            >
+            <label htmlFor="edit-name" className="block text-sm font-medium text-slate-300 mb-2">
               Nombre *
             </label>
             <input
@@ -224,10 +220,7 @@ export default function EditCombatantModal({
           {/* HP y AC */}
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label
-                htmlFor="edit-hp"
-                className="block text-sm font-medium text-slate-300 mb-2"
-              >
+              <label htmlFor="edit-hp" className="block text-sm font-medium text-slate-300 mb-2">
                 HP Actual *
               </label>
               <input
@@ -242,10 +235,7 @@ export default function EditCombatantModal({
               />
             </div>
             <div>
-              <label
-                htmlFor="edit-maxHp"
-                className="block text-sm font-medium text-slate-300 mb-2"
-              >
+              <label htmlFor="edit-maxHp" className="block text-sm font-medium text-slate-300 mb-2">
                 HP Máximo *
               </label>
               <input
@@ -269,10 +259,7 @@ export default function EditCombatantModal({
               />
             </div>
             <div>
-              <label
-                htmlFor="edit-ac"
-                className="block text-sm font-medium text-slate-300 mb-2"
-              >
+              <label htmlFor="edit-ac" className="block text-sm font-medium text-slate-300 mb-2">
                 AC *
               </label>
               <input
@@ -313,10 +300,7 @@ export default function EditCombatantModal({
 
           {/* Notas */}
           <div>
-            <label
-              htmlFor="edit-notes"
-              className="block text-sm font-medium text-slate-300 mb-2"
-            >
+            <label htmlFor="edit-notes" className="block text-sm font-medium text-slate-300 mb-2">
               Notas
             </label>
             <textarea

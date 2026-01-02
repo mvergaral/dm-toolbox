@@ -30,9 +30,7 @@ export default function Settings() {
               <RefreshCw className="text-blue-400" size={24} />
             </div>
             <div className="flex-1">
-              <h2 className="text-xl font-bold text-white mb-2">
-                {t('settings.updates.title')}
-              </h2>
+              <h2 className="text-xl font-bold text-white mb-2">{t('settings.updates.title')}</h2>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-white font-medium">{t('settings.updates.check')}</p>
@@ -63,12 +61,8 @@ export default function Settings() {
               <Languages className="text-indigo-400" size={24} />
             </div>
             <div className="flex-1">
-              <h2 className="text-xl font-bold text-white mb-2">
-                {t('settings.language')}
-              </h2>
-              <p className="text-slate-400 mb-4 text-sm">
-                {t('settings.selectLanguage')}
-              </p>
+              <h2 className="text-xl font-bold text-white mb-2">{t('settings.language')}</h2>
+              <p className="text-slate-400 mb-4 text-sm">{t('settings.selectLanguage')}</p>
               <LanguageSelector />
 
               <div className="mt-4 p-3 bg-slate-800/50 border border-slate-700 rounded-lg">
@@ -93,8 +87,12 @@ export default function Settings() {
               </h2>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-white font-medium">{t('settings.appearance.sidebarAutoHide')}</p>
-                  <p className="text-sm text-slate-400">{t('settings.appearance.sidebarAutoHideDesc')}</p>
+                  <p className="text-white font-medium">
+                    {t('settings.appearance.sidebarAutoHide')}
+                  </p>
+                  <p className="text-sm text-slate-400">
+                    {t('settings.appearance.sidebarAutoHideDesc')}
+                  </p>
                 </div>
                 <button
                   onClick={() => setSidebarAutoHide(!sidebarAutoHide)}
@@ -122,19 +120,13 @@ export default function Settings() {
               <Info className="text-slate-400" size={24} />
             </div>
             <div className="flex-1">
-              <h2 className="text-xl font-bold text-white mb-2">
-                {t('settings.about')}
-              </h2>
+              <h2 className="text-xl font-bold text-white mb-2">{t('settings.about')}</h2>
               <div className="space-y-2 text-sm text-slate-400">
                 <p>
                   <span className="font-medium text-slate-300">DM Toolbox</span> v0.4.0
                 </p>
-                <p>
-                  {t('settings.appSubtitle')}
-                </p>
-                <p className="text-xs text-slate-500 pt-2">
-                  {t('settings.buildBy')}
-                </p>
+                <p>{t('settings.appSubtitle')}</p>
+                <p className="text-xs text-slate-500 pt-2">{t('settings.buildBy')}</p>
 
                 <button
                   onClick={() => window.open('https://ko-fi.com/Y8Y21QGBRX', '_blank')}

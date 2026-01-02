@@ -1,83 +1,80 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useDB } from '../context/DbContext';
-import { useToast } from '../context/ToastContext';
-import { useConfirm } from '../context/ConfirmationContext';
-import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut';
-import { useTranslation } from 'react-i18next';
-import TagSelector from '../components/ui/TagSelector';
-import ImageUploader from '../components/ui/ImageUploader';
-import Tooltip from '../components/ui/Tooltip';
-import { TAG_COLOR_CLASSES } from '../utils/tagColors';
-import { Plus, Trash2, Calendar, BookOpen, X, Pencil } from 'lucide-react';
+import { useEffect, useState } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useDB } from '../context/DbContext'
+import { useToast } from '../context/ToastContext'
+import { useConfirm } from '../context/ConfirmationContext'
+import { useKeyboardShortcut } from '../hooks/useKeyboardShortcut'
+import { useTranslation } from 'react-i18next'
+import TagSelector from '../components/ui/TagSelector'
+import ImageUploader from '../components/ui/ImageUploader'
+import Tooltip from '../components/ui/Tooltip'
+import { TAG_COLOR_CLASSES } from '../utils/tagColors'
+import { Plus, Trash2, Calendar, BookOpen, X, Pencil } from 'lucide-react'
+import type { RxDocument } from 'rxdb'
 
 // Definimos la estructura de datos para TypeScript
 interface Campaign {
-  id: string;
-  name: string;
-  system: string;
-  systemColor: string;
-  description: string;
-  createdAt: number;
-  backgroundImage?: string;
+  id: string
+  name: string
+  system: string
+  systemColor: string
+  description: string
+  createdAt: number
+  backgroundImage?: string
 }
 
 export default function Campaigns() {
-  const db = useDB();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { t } = useTranslation();
-  const { addToast } = useToast();
-  const { confirm } = useConfirm();
+  const db = useDB()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { t } = useTranslation()
+  const { addToast } = useToast()
+  const { confirm } = useConfirm()
 
-  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [newCampaignName, setNewCampaignName] = useState('');
-  const [newCampaignSystem, setNewCampaignSystem] = useState('');
-  const [newCampaignSystemColor, setNewCampaignSystemColor] = useState('');
-  const [newCampaignDescription, setNewCampaignDescription] = useState('');
-  const [newCampaignBackgroundImage, setNewCampaignBackgroundImage] = useState('');
-  const [editingCampaignId, setEditingCampaignId] = useState<string | null>(null);
-
-  // Atajos de teclado
-  useKeyboardShortcut('Escape', () => closeModal(), showCreateModal);
-  useKeyboardShortcut({ key: 'Enter', ctrlKey: true }, () => handleSaveCampaign(), showCreateModal);
+  const [campaigns, setCampaigns] = useState<Campaign[]>([])
+  const [showCreateModal, setShowCreateModal] = useState(false)
+  const [newCampaignName, setNewCampaignName] = useState('')
+  const [newCampaignSystem, setNewCampaignSystem] = useState('')
+  const [newCampaignSystemColor, setNewCampaignSystemColor] = useState('')
+  const [newCampaignDescription, setNewCampaignDescription] = useState('')
+  const [newCampaignBackgroundImage, setNewCampaignBackgroundImage] = useState('')
+  const [editingCampaignId, setEditingCampaignId] = useState<string | null>(null)
 
   // 1. Verificar si venimos con intención de crear (desde Dashboard)
   useEffect(() => {
-    if (location.state && (location.state as any).openCreateModal) {
-      setShowCreateModal(true);
+    if (location.state && (location.state as { openCreateModal?: boolean }).openCreateModal) {
+      setShowCreateModal(true)
       // Limpiamos el state para que no se vuelva a abrir al recargar o navegar
       window.history.replaceState({}, document.title)
     }
-  }, [location]);
+  }, [location])
 
   // 2. Suscripción a cambios en tiempo real
   useEffect(() => {
     // Nos suscribimos a la consulta "dame todas las campañas"
     // El "$" al final significa que es un Observable (stream de datos)
-    const subscription = db.campaigns.find().$.subscribe((documents: any[]) => {
+    const subscription = db.campaigns.find().$.subscribe((documents: RxDocument<Campaign>[]) => {
       // Convertimos los documentos de RxDB a objetos JSON normales
       const plainData = documents
-        .map(doc => doc.toJSON())
-        .sort((a, b) => b.createdAt - a.createdAt); // Ordenar por fecha (más reciente primero)
-      setCampaigns(plainData);
-    });
+        .map((doc) => doc.toJSON())
+        .sort((a, b) => b.createdAt - a.createdAt) // Ordenar por fecha (más reciente primero)
+      setCampaigns(plainData)
+    })
 
     // Limpieza: Cuando sales de esta pantalla, dejamos de escuchar cambios
     return () => {
-      subscription.unsubscribe();
-    };
-  }, [db]); // Se ejecuta cuando obtenemos la DB
+      subscription.unsubscribe()
+    }
+  }, [db]) // Se ejecuta cuando obtenemos la DB
 
   // 3. Función para guardar campaña (crear o editar)
   const handleSaveCampaign = async () => {
-    if (!newCampaignName.trim()) return;
+    if (!newCampaignName.trim()) return
 
     try {
       if (editingCampaignId) {
         // Editar existente
-        const doc = await db.campaigns.findOne(editingCampaignId).exec();
+        const doc = await db.campaigns.findOne(editingCampaignId).exec()
         if (doc) {
           await doc.patch({
             name: newCampaignName.trim(),
@@ -85,17 +82,19 @@ export default function Campaigns() {
             systemColor: newCampaignSystemColor,
             description: newCampaignDescription.trim() || t('campaigns.form.defaultDescription'),
             backgroundImage: newCampaignBackgroundImage
-          });
+          })
         }
       } else {
         // Crear nueva
-        const systemName = newCampaignSystem.trim();
+        const systemName = newCampaignSystem.trim()
 
         // Verificar si el tag existe, si no, crearlo
         try {
-          const existingTag = await db.gameSystemTags.findOne({
-            selector: { name: systemName }
-          }).exec();
+          const existingTag = await db.gameSystemTags
+            .findOne({
+              selector: { name: systemName }
+            })
+            .exec()
 
           if (!existingTag) {
             await db.gameSystemTags.insert({
@@ -103,10 +102,10 @@ export default function Campaigns() {
               name: systemName,
               color: newCampaignSystemColor,
               createdAt: Date.now()
-            });
+            })
           }
         } catch (tagError) {
-          console.error("Error verificando/creando tag:", tagError);
+          console.error('Error verificando/creando tag:', tagError)
           // No bloqueamos la creación de la campaña si falla el tag
         }
 
@@ -118,48 +117,44 @@ export default function Campaigns() {
           createdAt: Date.now(),
           description: newCampaignDescription.trim() || t('campaigns.form.defaultDescription'),
           backgroundImage: newCampaignBackgroundImage
-        };
-        await db.campaigns.insert(newCampaign);
+        }
+        await db.campaigns.insert(newCampaign)
       }
 
-      closeModal();
+      closeModal()
       addToast(
         editingCampaignId ? t('campaigns.edit.success') : t('campaigns.create.success'),
         'success'
-      );
-
-    } catch (error: any) {
-      console.error("Error al guardar:", error);
-      addToast(
-        `Error: ${error.message}`,
-        'error'
-      );
+      )
+    } catch (error: unknown) {
+      console.error('Error al guardar:', error)
+      addToast(`Error: ${(error as Error).message}`, 'error')
     }
-  };
+  }
 
   const closeModal = () => {
-    setShowCreateModal(false);
-    setEditingCampaignId(null);
-    setNewCampaignName('');
-    setNewCampaignSystem('');
-    setNewCampaignSystemColor('indigo');
-    setNewCampaignDescription('');
-    setNewCampaignBackgroundImage('');
-  };
+    setShowCreateModal(false)
+    setEditingCampaignId(null)
+    setNewCampaignName('')
+    setNewCampaignSystem('')
+    setNewCampaignSystemColor('indigo')
+    setNewCampaignDescription('')
+    setNewCampaignBackgroundImage('')
+  }
 
   const openEditModal = (campaign: Campaign, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setEditingCampaignId(campaign.id);
-    setNewCampaignName(campaign.name);
-    setNewCampaignSystem(campaign.system);
-    setNewCampaignSystemColor(campaign.systemColor);
-    setNewCampaignDescription(campaign.description);
-    setNewCampaignBackgroundImage(campaign.backgroundImage || '');
-    setShowCreateModal(true);
-  };
+    e.stopPropagation()
+    setEditingCampaignId(campaign.id)
+    setNewCampaignName(campaign.name)
+    setNewCampaignSystem(campaign.system)
+    setNewCampaignSystemColor(campaign.systemColor)
+    setNewCampaignDescription(campaign.description)
+    setNewCampaignBackgroundImage(campaign.backgroundImage || '')
+    setShowCreateModal(true)
+  }
 
   const removeCampaign = async (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
+    e.stopPropagation()
 
     confirm({
       title: t('campaigns.delete.title'),
@@ -168,18 +163,22 @@ export default function Campaigns() {
       type: 'danger',
       onConfirm: async () => {
         try {
-          const doc = await db.campaigns.findOne(id).exec();
+          const doc = await db.campaigns.findOne(id).exec()
           if (doc) {
-            await doc.remove();
-            addToast(t('campaigns.delete.success'), 'success');
+            await doc.remove()
+            addToast(t('campaigns.delete.success'), 'success')
           }
-        } catch (error: any) {
-          console.error("Error al borrar:", error);
-          addToast(`Error: ${error.message}`, 'error');
+        } catch (error: unknown) {
+          console.error('Error al borrar:', error)
+          addToast(`Error: ${(error as Error).message}`, 'error')
         }
       }
-    });
-  };
+    })
+  }
+
+  // Atajos de teclado
+  useKeyboardShortcut('Escape', () => closeModal(), showCreateModal)
+  useKeyboardShortcut({ key: 'Enter', ctrlKey: true }, () => handleSaveCampaign(), showCreateModal)
 
   // 5. Renderizado
   return (
@@ -228,64 +227,66 @@ export default function Campaigns() {
 
               {/* Tags sobre la imagen */}
               <div className="absolute top-4 right-4">
-                 <span className={`text-xs font-bold bg-slate-950/80 backdrop-blur-sm px-2 py-1 rounded uppercase tracking-wider border ${
-                      TAG_COLOR_CLASSES[camp.systemColor]?.bg || TAG_COLOR_CLASSES.indigo.bg
-                    } ${
-                      TAG_COLOR_CLASSES[camp.systemColor]?.text || TAG_COLOR_CLASSES.indigo.text
-                    } ${
-                      TAG_COLOR_CLASSES[camp.systemColor]?.border || TAG_COLOR_CLASSES.indigo.border
-                    }`}>
-                        {camp.system}
-                    </span>
+                <span
+                  className={`text-xs font-bold bg-slate-950/80 backdrop-blur-sm px-2 py-1 rounded uppercase tracking-wider border ${
+                    TAG_COLOR_CLASSES[camp.systemColor]?.bg || TAG_COLOR_CLASSES.indigo.bg
+                  } ${TAG_COLOR_CLASSES[camp.systemColor]?.text || TAG_COLOR_CLASSES.indigo.text} ${
+                    TAG_COLOR_CLASSES[camp.systemColor]?.border || TAG_COLOR_CLASSES.indigo.border
+                  }`}
+                >
+                  {camp.system}
+                </span>
               </div>
             </div>
 
             <div className="p-6 pt-4 relative z-10 flex-1 flex flex-col">
-                <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-xl font-bold text-white group-hover:text-indigo-300 transition-colors truncate flex-1 mr-2">
-                        {camp.name}
-                    </h3>
-                    <div className="flex gap-1 -mt-1 -mr-1">
-                      <Tooltip content={t('common.edit')}>
-                        <button
-                            onClick={(e) => openEditModal(camp, e)}
-                            className="text-slate-600 hover:text-indigo-400 transition-colors p-1 hover:bg-indigo-500/10 rounded"
-                        >
-                            <Pencil size={18}/>
-                        </button>
-                      </Tooltip>
-                      <Tooltip content={t('campaigns.delete.title')}>
-                        <button
-                            onClick={(e) => removeCampaign(camp.id, e)}
-                            className="text-slate-600 hover:text-red-500 transition-colors p-1 hover:bg-red-500/10 rounded"
-                        >
-                            <Trash2 size={18}/>
-                        </button>
-                      </Tooltip>
-                    </div>
+              <div className="flex justify-between items-start mb-2">
+                <h3 className="text-xl font-bold text-white group-hover:text-indigo-300 transition-colors truncate flex-1 mr-2">
+                  {camp.name}
+                </h3>
+                <div className="flex gap-1 -mt-1 -mr-1">
+                  <Tooltip content={t('common.edit')}>
+                    <button
+                      onClick={(e) => openEditModal(camp, e)}
+                      className="text-slate-600 hover:text-indigo-400 transition-colors p-1 hover:bg-indigo-500/10 rounded"
+                    >
+                      <Pencil size={18} />
+                    </button>
+                  </Tooltip>
+                  <Tooltip content={t('campaigns.delete.title')}>
+                    <button
+                      onClick={(e) => removeCampaign(camp.id, e)}
+                      className="text-slate-600 hover:text-red-500 transition-colors p-1 hover:bg-red-500/10 rounded"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </Tooltip>
                 </div>
+              </div>
 
-                <p className="text-slate-500 text-sm mb-6 line-clamp-2 h-10 flex-1">
-                    {camp.description}
-                </p>
+              <p className="text-slate-500 text-sm mb-6 line-clamp-2 h-10 flex-1">
+                {camp.description}
+              </p>
 
-                <div className="flex items-center text-xs text-slate-600 gap-2 pt-4 border-t border-slate-800/50 mt-auto">
-                    <Calendar size={14} />
-                    <span>{t('campaigns.detail.createdAt')}: {new Date(camp.createdAt).toLocaleDateString()}</span>
-                </div>
+              <div className="flex items-center text-xs text-slate-600 gap-2 pt-4 border-t border-slate-800/50 mt-auto">
+                <Calendar size={14} />
+                <span>
+                  {t('campaigns.detail.createdAt')}: {new Date(camp.createdAt).toLocaleDateString()}
+                </span>
+              </div>
             </div>
           </div>
         ))}
 
         {/* Estado Vacío */}
         {campaigns.length === 0 && (
-            <div className="col-span-full py-20 flex flex-col items-center justify-center border-2 border-dashed border-slate-800 rounded-3xl bg-slate-900/20 text-slate-500">
-                <div className="bg-slate-900 p-4 rounded-full mb-4">
-                    <BookOpen size={48} className="text-slate-700" />
-                </div>
-                <p className="text-lg font-medium text-slate-400">{t('campaigns.noCampaigns')}</p>
-                <p className="text-sm opacity-60">{t('campaigns.noCampaignsDesc')}</p>
+          <div className="col-span-full py-20 flex flex-col items-center justify-center border-2 border-dashed border-slate-800 rounded-3xl bg-slate-900/20 text-slate-500">
+            <div className="bg-slate-900 p-4 rounded-full mb-4">
+              <BookOpen size={48} className="text-slate-700" />
             </div>
+            <p className="text-lg font-medium text-slate-400">{t('campaigns.noCampaigns')}</p>
+            <p className="text-sm opacity-60">{t('campaigns.noCampaignsDesc')}</p>
+          </div>
         )}
       </div>
 
@@ -307,8 +308,8 @@ export default function Campaigns() {
 
             <form
               onSubmit={(e) => {
-                e.preventDefault();
-                handleSaveCampaign();
+                e.preventDefault()
+                handleSaveCampaign()
               }}
               className="p-6 space-y-6"
             >
@@ -337,8 +338,8 @@ export default function Campaigns() {
                     <TagSelector
                       selectedTag={newCampaignSystem}
                       onTagSelect={(tagName, tagColor) => {
-                        setNewCampaignSystem(tagName);
-                        setNewCampaignSystemColor(tagColor);
+                        setNewCampaignSystem(tagName)
+                        setNewCampaignSystemColor(tagColor)
                       }}
                     />
                   </div>
@@ -395,5 +396,5 @@ export default function Campaigns() {
         </div>
       )}
     </div>
-  );
+  )
 }

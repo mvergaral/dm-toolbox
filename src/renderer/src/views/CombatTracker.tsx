@@ -4,6 +4,7 @@ import { useDB } from '../context/DbContext'
 import { useTranslation } from 'react-i18next'
 import BackButton from '../components/ui/BackButton'
 import { Plus, Swords, Clock, Trash2, Play, X } from 'lucide-react'
+import type { RxDocument } from 'rxdb'
 
 interface CombatEncounter {
   id: string
@@ -23,15 +24,12 @@ export default function CombatTracker() {
   const { t } = useTranslation()
 
   const [encounters, setEncounters] = useState<CombatEncounter[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(!!campaignId)
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [newEncounterName, setNewEncounterName] = useState('')
 
   useEffect(() => {
-    if (!campaignId) {
-      setIsLoading(false)
-      return
-    }
+    if (!campaignId) return
 
     const subscription = db.combatEncounters
       .find({
@@ -40,10 +38,8 @@ export default function CombatTracker() {
         }
       })
       .$.subscribe({
-        next: (docs: any[]) => {
-          const sorted = docs
-            .map(doc => doc.toJSON())
-            .sort((a, b) => b.createdAt - a.createdAt)
+        next: (docs: RxDocument<CombatEncounter>[]) => {
+          const sorted = docs.map((doc) => doc.toJSON()).sort((a, b) => b.createdAt - a.createdAt)
           setEncounters(sorted)
           setIsLoading(false)
         },
@@ -93,7 +89,7 @@ export default function CombatTracker() {
         })
         .exec()
 
-      await Promise.all(combatants.map(c => c.remove()))
+      await Promise.all(combatants.map((c) => c.remove()))
 
       // Eliminar encuentro
       const doc = await db.combatEncounters.findOne(encounterId).exec()

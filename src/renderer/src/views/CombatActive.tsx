@@ -19,6 +19,7 @@ import {
   FileText,
   Skull
 } from 'lucide-react'
+import type { RxDocument } from 'rxdb'
 
 interface CombatEncounter {
   id: string
@@ -60,7 +61,7 @@ export default function CombatActive() {
 
   const [encounter, setEncounter] = useState<CombatEncounter | null>(null)
   const [combatants, setCombatants] = useState<Combatant[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(!!encounterId)
   const [showAddModal, setShowAddModal] = useState(false)
   const [editingCombatant, setEditingCombatant] = useState<Combatant | null>(null)
   const [hpChangeAmount, setHpChangeAmount] = useState<{ [key: string]: number | string }>({})
@@ -68,27 +69,22 @@ export default function CombatActive() {
 
   // Cargar encuentro
   useEffect(() => {
-    if (!encounterId) {
-      setIsLoading(false)
-      return
-    }
+    if (!encounterId) return
 
-    const subscription = db.combatEncounters
-      .findOne(encounterId)
-      .$.subscribe({
-        next: (doc: any) => {
-          if (doc) {
-            setEncounter(doc.toJSON())
-          } else {
-            navigate(`/campaign/${campaignId}/combat`)
-          }
-          setIsLoading(false)
-        },
-        error: (error) => {
-          console.error('Error cargando encuentro:', error)
-          setIsLoading(false)
+    const subscription = db.combatEncounters.findOne(encounterId).$.subscribe({
+      next: (doc: RxDocument<CombatEncounter>) => {
+        if (doc) {
+          setEncounter(doc.toJSON())
+        } else {
+          navigate(`/campaign/${campaignId}/combat`)
         }
-      })
+        setIsLoading(false)
+      },
+      error: (error) => {
+        console.error('Error cargando encuentro:', error)
+        setIsLoading(false)
+      }
+    })
 
     return () => subscription.unsubscribe()
   }, [encounterId, db, navigate, campaignId])
@@ -104,10 +100,8 @@ export default function CombatActive() {
         }
       })
       .$.subscribe({
-        next: (docs: any[]) => {
-          const sorted = docs
-            .map((doc) => doc.toJSON())
-            .sort((a, b) => b.initiative - a.initiative)
+        next: (docs: RxDocument<Combatant>[]) => {
+          const sorted = docs.map((doc) => doc.toJSON()).sort((a, b) => b.initiative - a.initiative)
           setCombatants(sorted)
         },
         error: (error) => {
@@ -174,8 +168,10 @@ export default function CombatActive() {
 
     // Si todos están muertos, retroceder normalmente
     if (attempts >= combatants.length) {
-      prevTurnIndex = encounter.currentTurn === 0 ? combatants.length - 1 : encounter.currentTurn - 1
-      newRound = encounter.currentTurn === 0 && encounter.round > 1 ? encounter.round - 1 : encounter.round
+      prevTurnIndex =
+        encounter.currentTurn === 0 ? combatants.length - 1 : encounter.currentTurn - 1
+      newRound =
+        encounter.currentTurn === 0 && encounter.round > 1 ? encounter.round - 1 : encounter.round
     }
 
     try {
@@ -235,6 +231,7 @@ export default function CombatActive() {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const addCombatant = async (combatant: any) => {
     try {
       await db.combatants.insert(combatant)
@@ -285,7 +282,7 @@ export default function CombatActive() {
   }
 
   const toggleNotes = (combatantId: string) => {
-    setExpandedNotes(prev => ({
+    setExpandedNotes((prev) => ({
       ...prev,
       [combatantId]: !prev[combatantId]
     }))
@@ -322,9 +319,7 @@ export default function CombatActive() {
                 <Swords className="text-red-500" size={28} />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-white">
-                  {encounter.name}
-                </h1>
+                <h1 className="text-3xl font-bold text-white">{encounter.name}</h1>
                 <p className="text-slate-400">Round {encounter.round}</p>
               </div>
             </div>
@@ -366,12 +361,8 @@ export default function CombatActive() {
             <div className="bg-slate-900 p-4 rounded-full mb-4">
               <Users size={48} className="text-slate-700" />
             </div>
-            <p className="text-lg font-medium text-slate-400">
-              No hay combatientes
-            </p>
-            <p className="text-sm opacity-60 mb-6">
-              Añade PJs y NPCs para comenzar
-            </p>
+            <p className="text-lg font-medium text-slate-400">No hay combatientes</p>
+            <p className="text-sm opacity-60 mb-6">Añade PJs y NPCs para comenzar</p>
             <button
               onClick={() => setShowAddModal(true)}
               className="flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-medium transition-colors"
@@ -396,9 +387,11 @@ export default function CombatActive() {
               >
                 <div className="flex items-center gap-4">
                   {/* Avatar */}
-                  <div className={`flex-shrink-0 w-14 h-14 rounded-full overflow-hidden border-2 ${
-                    combatant.isHostile ? 'border-red-500' : 'border-slate-700'
-                  } bg-slate-800`}>
+                  <div
+                    className={`flex-shrink-0 w-14 h-14 rounded-full overflow-hidden border-2 ${
+                      combatant.isHostile ? 'border-red-500' : 'border-slate-700'
+                    } bg-slate-800`}
+                  >
                     {combatant.imageData ? (
                       <img
                         src={combatant.imageData}
@@ -407,18 +400,22 @@ export default function CombatActive() {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-slate-600">
-                        {combatant.type === 'monster' ? <Skull size={20} /> :
-                         combatant.type === 'npc' ? <Users size={20} /> :
-                         combatant.isNpc ? <Swords size={20} /> : <User size={20} />}
+                        {combatant.type === 'monster' ? (
+                          <Skull size={20} />
+                        ) : combatant.type === 'npc' ? (
+                          <Users size={20} />
+                        ) : combatant.isNpc ? (
+                          <Swords size={20} />
+                        ) : (
+                          <User size={20} />
+                        )}
                       </div>
                     )}
                   </div>
 
                   {/* Iniciativa */}
                   <div className="flex-shrink-0 w-16 h-16 bg-slate-800 rounded-xl flex items-center justify-center">
-                    <span className="text-2xl font-bold text-white">
-                      {combatant.initiative}
-                    </span>
+                    <span className="text-2xl font-bold text-white">{combatant.initiative}</span>
                   </div>
 
                   {/* Info del combatiente */}
@@ -433,7 +430,9 @@ export default function CombatActive() {
                       ) : (
                         <User size={18} className="text-blue-400 flex-shrink-0" />
                       )}
-                      <h3 className={`text-lg font-bold truncate ${combatant.isHostile ? 'text-red-200' : 'text-white'} ${combatant.isDead ? 'line-through opacity-50' : ''}`}>
+                      <h3
+                        className={`text-lg font-bold truncate ${combatant.isHostile ? 'text-red-200' : 'text-white'} ${combatant.isDead ? 'line-through opacity-50' : ''}`}
+                      >
                         {combatant.name}
                       </h3>
                       {isCurrentTurn && (
@@ -455,9 +454,7 @@ export default function CombatActive() {
                         <span>AC {combatant.ac}</span>
                       </div>
                       {combatant.attacks && (
-                        <div className="text-slate-400 text-xs truncate">
-                          {combatant.attacks}
-                        </div>
+                        <div className="text-slate-400 text-xs truncate">{combatant.attacks}</div>
                       )}
                     </div>
 
@@ -465,9 +462,7 @@ export default function CombatActive() {
                     <div className="mt-2">
                       <ConditionsManager
                         conditions={combatant.conditions}
-                        onUpdate={(newConditions) =>
-                          updateConditions(combatant.id, newConditions)
-                        }
+                        onUpdate={(newConditions) => updateConditions(combatant.id, newConditions)}
                       />
                     </div>
                   </div>
@@ -486,13 +481,9 @@ export default function CombatActive() {
                                 : 'text-green-400'
                           }
                         />
-                        <span className="text-lg font-bold text-white">
-                          {combatant.hp}
-                        </span>
+                        <span className="text-lg font-bold text-white">{combatant.hp}</span>
                         <span className="text-slate-500">/</span>
-                        <span className="text-slate-400">
-                          {combatant.maxHp}
-                        </span>
+                        <span className="text-slate-400">{combatant.maxHp}</span>
                       </div>
                       <div className="w-32 h-2 bg-slate-800 rounded-full overflow-hidden">
                         <div
@@ -512,7 +503,11 @@ export default function CombatActive() {
                       <div className="flex gap-1">
                         <input
                           type="number"
-                          value={hpChangeAmount[combatant.id] !== undefined ? hpChangeAmount[combatant.id] : 1}
+                          value={
+                            hpChangeAmount[combatant.id] !== undefined
+                              ? hpChangeAmount[combatant.id]
+                              : 1
+                          }
                           onChange={(e) => {
                             const val = e.target.value
                             setHpChangeAmount({
@@ -558,7 +553,7 @@ export default function CombatActive() {
                     <button
                       onClick={() => toggleDead(combatant.id, !!combatant.isDead)}
                       className={`transition-colors p-2 opacity-0 group-hover:opacity-100 ${combatant.isDead ? 'text-red-500 hover:text-slate-400' : 'text-slate-600 hover:text-red-500'}`}
-                      title={combatant.isDead ? "Revivir" : "Marcar como muerto"}
+                      title={combatant.isDead ? 'Revivir' : 'Marcar como muerto'}
                     >
                       <Skull size={18} />
                     </button>
@@ -567,7 +562,9 @@ export default function CombatActive() {
                       <button
                         onClick={() => toggleNotes(combatant.id)}
                         className="text-slate-600 hover:text-indigo-400 transition-colors p-2"
-                        title={expandedNotes[combatant.id] ? "Ocultar detalles" : "Ver ataques/notas"}
+                        title={
+                          expandedNotes[combatant.id] ? 'Ocultar detalles' : 'Ver ataques/notas'
+                        }
                       >
                         <FileText size={18} />
                       </button>

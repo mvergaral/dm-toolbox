@@ -20,12 +20,15 @@ const PREDEFINED_CONDITIONS = [
   { id: 'slowed', icon: Wind, color: 'blue' }
 ]
 
-const CONDITION_COLORS: Record<string, {
-  bg: string
-  text: string
-  border: string
-  hover: string
-}> = {
+const CONDITION_COLORS: Record<
+  string,
+  {
+    bg: string
+    text: string
+    border: string
+    hover: string
+  }
+> = {
   purple: {
     bg: 'bg-purple-500/10',
     text: 'text-purple-400',
@@ -89,7 +92,7 @@ export default function ConditionsManager({ conditions, onUpdate }: ConditionsMa
   }
 
   const removeCondition = (conditionName: string) => {
-    onUpdate(conditions.filter(c => c !== conditionName))
+    onUpdate(conditions.filter((c) => c !== conditionName))
   }
 
   const addCustomCondition = () => {
@@ -101,12 +104,16 @@ export default function ConditionsManager({ conditions, onUpdate }: ConditionsMa
   }
 
   const getConditionColor = (conditionName: string): string => {
-    const predefined = PREDEFINED_CONDITIONS.find(c => t(`combat.conditions.${c.id}`) === conditionName)
+    const predefined = PREDEFINED_CONDITIONS.find(
+      (c) => t(`combat.conditions.${c.id}`) === conditionName
+    )
     return predefined?.color || 'indigo'
   }
 
   const getConditionIcon = (conditionName: string) => {
-    const predefined = PREDEFINED_CONDITIONS.find(c => t(`combat.conditions.${c.id}`) === conditionName)
+    const predefined = PREDEFINED_CONDITIONS.find(
+      (c) => t(`combat.conditions.${c.id}`) === conditionName
+    )
     return predefined?.icon || Shield
   }
 
@@ -150,7 +157,9 @@ export default function ConditionsManager({ conditions, onUpdate }: ConditionsMa
       {/* Picker de condiciones */}
       {showPicker && (
         <div className="absolute top-full left-0 mt-2 z-50 bg-slate-900 border border-slate-700 rounded-lg shadow-xl p-3 min-w-[280px]">
-          <p className="text-xs text-slate-400 mb-2 font-medium">{t('combat.conditionsManager.selectCondition')}</p>
+          <p className="text-xs text-slate-400 mb-2 font-medium">
+            {t('combat.conditionsManager.selectCondition')}
+          </p>
 
           <div className="flex flex-wrap gap-1.5 mb-3">
             {PREDEFINED_CONDITIONS.map(({ id, icon: Icon, color }) => {
@@ -177,7 +186,9 @@ export default function ConditionsManager({ conditions, onUpdate }: ConditionsMa
           </div>
 
           <div className="border-t border-slate-800 pt-3">
-            <p className="text-xs text-slate-400 mb-2 font-medium">{t('combat.conditionsManager.createCustom')}</p>
+            <p className="text-xs text-slate-400 mb-2 font-medium">
+              {t('combat.conditionsManager.createCustom')}
+            </p>
             <div className="flex gap-2">
               <input
                 type="text"

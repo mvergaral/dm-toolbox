@@ -142,27 +142,32 @@ export default function CampaignDetail() {
         {/* Banner Image */}
         {campaign.backgroundImage && (
           <div className="w-full h-64 rounded-2xl overflow-hidden mb-6 relative shadow-2xl shadow-black/50 group">
-             <img
-               src={campaign.backgroundImage}
-               alt={campaign.name}
-               className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-             />
-             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+            <img
+              src={campaign.backgroundImage}
+              alt={campaign.name}
+              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
 
-             <div className="absolute bottom-0 left-0 p-8 w-full">
-                <div className="flex items-end justify-between">
-                   <div>
-                      <h1 className="text-5xl font-bold text-white mb-3 drop-shadow-lg tracking-tight">{campaign.name}</h1>
-                      <span className={`text-xs font-bold bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded uppercase tracking-wider shadow-lg border ${
-                        TAG_COLOR_CLASSES[campaign.systemColor]?.text || TAG_COLOR_CLASSES.indigo.text
-                      } ${
-                        TAG_COLOR_CLASSES[campaign.systemColor]?.border || TAG_COLOR_CLASSES.indigo.border
-                      }`}>
-                        {campaign.system}
-                      </span>
-                   </div>
+            <div className="absolute bottom-0 left-0 p-8 w-full">
+              <div className="flex items-end justify-between">
+                <div>
+                  <h1 className="text-5xl font-bold text-white mb-3 drop-shadow-lg tracking-tight">
+                    {campaign.name}
+                  </h1>
+                  <span
+                    className={`text-xs font-bold bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded uppercase tracking-wider shadow-lg border ${
+                      TAG_COLOR_CLASSES[campaign.systemColor]?.text || TAG_COLOR_CLASSES.indigo.text
+                    } ${
+                      TAG_COLOR_CLASSES[campaign.systemColor]?.border ||
+                      TAG_COLOR_CLASSES.indigo.border
+                    }`}
+                  >
+                    {campaign.system}
+                  </span>
                 </div>
-             </div>
+              </div>
+            </div>
           </div>
         )}
 
@@ -170,11 +175,13 @@ export default function CampaignDetail() {
           {!campaign.backgroundImage && (
             <div className="flex items-start justify-between mb-3">
               <h1 className="text-4xl font-bold text-white">{campaign.name}</h1>
-              <span className={`text-xs font-bold bg-slate-950 px-3 py-1.5 rounded uppercase tracking-wider border ${
-                TAG_COLOR_CLASSES[campaign.systemColor]?.text || TAG_COLOR_CLASSES.indigo.text
-              } ${
-                TAG_COLOR_CLASSES[campaign.systemColor]?.border || TAG_COLOR_CLASSES.indigo.border
-              }`}>
+              <span
+                className={`text-xs font-bold bg-slate-950 px-3 py-1.5 rounded uppercase tracking-wider border ${
+                  TAG_COLOR_CLASSES[campaign.systemColor]?.text || TAG_COLOR_CLASSES.indigo.text
+                } ${
+                  TAG_COLOR_CLASSES[campaign.systemColor]?.border || TAG_COLOR_CLASSES.indigo.border
+                }`}
+              >
                 {campaign.system}
               </span>
             </div>
@@ -182,7 +189,8 @@ export default function CampaignDetail() {
           <p className="text-slate-400 text-lg leading-relaxed max-w-3xl">{campaign.description}</p>
           <p className="text-slate-600 text-sm mt-4 flex items-center gap-2">
             <Calendar size={14} />
-            {t('campaigns.detail.createdAt')} {new Date(campaign.createdAt).toLocaleDateString(i18n.language, {
+            {t('campaigns.detail.createdAt')}{' '}
+            {new Date(campaign.createdAt).toLocaleDateString(i18n.language, {
               year: 'numeric',
               month: 'long',
               day: 'numeric'
@@ -200,44 +208,49 @@ export default function CampaignDetail() {
             disabled={module.disabled}
             className={`
               group relative p-8 rounded-2xl border transition-all duration-300
-              ${module.disabled
-                ? 'bg-slate-900/50 border-slate-800 cursor-not-allowed opacity-60'
-                : 'bg-slate-900 border-slate-800 hover:border-indigo-500/50 hover:bg-slate-800/50 cursor-pointer active:scale-[0.98]'
+              ${
+                module.disabled
+                  ? 'bg-slate-900/50 border-slate-800 cursor-not-allowed opacity-60'
+                  : 'bg-slate-900 border-slate-800 hover:border-indigo-500/50 hover:bg-slate-800/50 cursor-pointer active:scale-[0.98]'
               }
             `}
           >
             {/* Decoración de fondo */}
-            <div className={`
+            <div
+              className={`
               absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl -mr-16 -mt-16 transition-opacity
               ${module.disabled ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'}
               ${module.iconColor === 'text-red-500' ? 'bg-red-500/10' : ''}
               ${module.iconColor === 'text-green-500' ? 'bg-green-500/10' : ''}
               ${module.iconColor === 'text-blue-500' ? 'bg-blue-500/10' : ''}
-            `}></div>
+            `}
+            ></div>
 
             <div className="relative z-10">
               {/* Icono */}
-              <div className={`
+              <div
+                className={`
                 mb-6 w-16 h-16 rounded-xl flex items-center justify-center transition-all
-                ${module.disabled
-                  ? 'bg-slate-800/50'
-                  : 'bg-slate-950 group-hover:scale-110'
-                }
-              `}>
-                <module.icon size={32} className={module.disabled ? 'text-slate-700' : module.iconColor} />
+                ${module.disabled ? 'bg-slate-800/50' : 'bg-slate-950 group-hover:scale-110'}
+              `}
+              >
+                <module.icon
+                  size={32}
+                  className={module.disabled ? 'text-slate-700' : module.iconColor}
+                />
               </div>
 
               {/* Contenido */}
-              <h3 className={`
+              <h3
+                className={`
                 text-xl font-bold mb-2 transition-colors
                 ${module.disabled ? 'text-slate-600' : 'text-white group-hover:text-indigo-300'}
-              `}>
+              `}
+              >
                 {module.title}
               </h3>
 
-              <p className="text-slate-500 text-sm leading-relaxed">
-                {module.description}
-              </p>
+              <p className="text-slate-500 text-sm leading-relaxed">{module.description}</p>
 
               {/* Badge "Próximamente" */}
               {module.disabled && (

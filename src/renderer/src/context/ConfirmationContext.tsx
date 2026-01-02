@@ -52,11 +52,15 @@ export function ConfirmationProvider({ children }: { children: React.ReactNode }
           <div className="bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-in zoom-in-95 duration-200">
             <div className="p-6">
               <div className="flex items-start gap-4">
-                <div className={`p-3 rounded-full shrink-0 ${
-                  options.type === 'danger' ? 'bg-red-500/10 text-red-500' :
-                  options.type === 'warning' ? 'bg-amber-500/10 text-amber-500' :
-                  'bg-blue-500/10 text-blue-500'
-                }`}>
+                <div
+                  className={`p-3 rounded-full shrink-0 ${
+                    options.type === 'danger'
+                      ? 'bg-red-500/10 text-red-500'
+                      : options.type === 'warning'
+                        ? 'bg-amber-500/10 text-amber-500'
+                        : 'bg-blue-500/10 text-blue-500'
+                  }`}
+                >
                   <AlertTriangle size={24} />
                 </div>
                 <div className="flex-1">
@@ -76,9 +80,11 @@ export function ConfirmationProvider({ children }: { children: React.ReactNode }
               <button
                 onClick={handleConfirm}
                 className={`px-4 py-2 rounded-lg text-sm font-medium text-white shadow-lg transition-all active:scale-95 ${
-                  options.type === 'danger' ? 'bg-red-600 hover:bg-red-500 shadow-red-500/20' :
-                  options.type === 'warning' ? 'bg-amber-600 hover:bg-amber-500 shadow-amber-500/20' :
-                  'bg-indigo-600 hover:bg-indigo-500 shadow-indigo-500/20'
+                  options.type === 'danger'
+                    ? 'bg-red-600 hover:bg-red-500 shadow-red-500/20'
+                    : options.type === 'warning'
+                      ? 'bg-amber-600 hover:bg-amber-500 shadow-amber-500/20'
+                      : 'bg-indigo-600 hover:bg-indigo-500 shadow-indigo-500/20'
                 }`}
               >
                 {options.confirmText || t('common.confirm')}

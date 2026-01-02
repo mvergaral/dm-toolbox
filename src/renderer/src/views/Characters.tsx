@@ -4,7 +4,22 @@ import { useDB } from '../context/DbContext'
 import { useTranslation } from 'react-i18next'
 import ImageUploader from '../components/ui/ImageUploader'
 import BackButton from '../components/ui/BackButton'
-import { Edit2, Plus, Trash2, UserCheck, Heart, Shield, X, Skull, HeartPulse, Search, ChevronDown, ChevronUp, FileText } from 'lucide-react'
+import {
+  Edit2,
+  Plus,
+  Trash2,
+  UserCheck,
+  Heart,
+  Shield,
+  X,
+  Skull,
+  HeartPulse,
+  Search,
+  ChevronDown,
+  ChevronUp,
+  FileText
+} from 'lucide-react'
+import type { RxDocument } from 'rxdb'
 
 interface Character {
   id: string
@@ -60,10 +75,8 @@ export default function Characters() {
         }
       })
       .$.subscribe({
-        next: (docs: any[]) => {
-          const chars = docs
-            .map((doc) => doc.toJSON())
-            .sort((a, b) => b.createdAt - a.createdAt)
+        next: (docs: RxDocument<Character>[]) => {
+          const chars = docs.map((doc) => doc.toJSON()).sort((a, b) => b.createdAt - a.createdAt)
           setCharacters(chars)
           setIsLoading(false)
         },
@@ -155,9 +168,9 @@ export default function Characters() {
       }
 
       setShowCreateModal(false)
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error guardando personaje:', error)
-      alert(`No se pudo guardar el personaje: ${error.message}`)
+      alert(`No se pudo guardar el personaje: ${(error as Error).message}`)
     }
   }
 
@@ -249,7 +262,11 @@ export default function Characters() {
         {filteredCharacters.length === 0 ? (
           <div className="col-span-full py-20 flex flex-col items-center justify-center border-2 border-dashed border-slate-800 rounded-3xl bg-slate-900/20 text-slate-500">
             <div className="bg-slate-900 p-4 rounded-full mb-4">
-              {searchTerm ? <Search size={48} className="text-slate-700" /> : <UserCheck size={48} className="text-slate-700" />}
+              {searchTerm ? (
+                <Search size={48} className="text-slate-700" />
+              ) : (
+                <UserCheck size={48} className="text-slate-700" />
+              )}
             </div>
             <p className="text-lg font-medium text-slate-400">
               {searchTerm ? t('common.noData') : t('characters.noCharacters')}
@@ -297,9 +314,7 @@ export default function Characters() {
                   <div className="flex-1">
                     <h3 className="text-xl font-bold text-white mb-1 flex items-center gap-2">
                       {character.name}
-                      {!character.isAlive && (
-                        <Skull size={18} className="text-red-500" />
-                      )}
+                      {!character.isAlive && <Skull size={18} className="text-red-500" />}
                     </h3>
                     <p className="text-sm text-slate-400">
                       {character.playerName || t('common.unspecified')}
@@ -348,7 +363,8 @@ export default function Characters() {
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-slate-400">{t('characters.form.initiative')}</span>
                   <span className="text-white font-medium">
-                    {character.initiativeBonus >= 0 ? '+' : ''}{character.initiativeBonus}
+                    {character.initiativeBonus >= 0 ? '+' : ''}
+                    {character.initiativeBonus}
                   </span>
                 </div>
               </div>
@@ -356,7 +372,11 @@ export default function Characters() {
               {character.notes && (
                 <>
                   <button
-                    onClick={() => setExpandedCharacterId(expandedCharacterId === character.id ? null : character.id)}
+                    onClick={() =>
+                      setExpandedCharacterId(
+                        expandedCharacterId === character.id ? null : character.id
+                      )
+                    }
                     className="w-full mb-4 flex items-center justify-center gap-2 text-xs font-medium text-slate-500 hover:text-slate-300 transition-colors py-2 border-t border-slate-800/50"
                   >
                     {expandedCharacterId === character.id ? (
@@ -499,7 +519,9 @@ export default function Characters() {
                   <input
                     type="number"
                     value={formData.level}
-                    onChange={(e) => setFormData({ ...formData, level: parseInt(e.target.value) || 1 })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, level: parseInt(e.target.value) || 1 })
+                    }
                     onFocus={(e) => e.target.select()}
                     min="1"
                     max="20"
@@ -526,7 +548,9 @@ export default function Characters() {
                   <input
                     type="number"
                     value={formData.maxHp}
-                    onChange={(e) => setFormData({ ...formData, maxHp: parseInt(e.target.value) || 1 })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, maxHp: parseInt(e.target.value) || 1 })
+                    }
                     onFocus={(e) => e.target.select()}
                     min="1"
                     className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
@@ -540,7 +564,9 @@ export default function Characters() {
                   <input
                     type="number"
                     value={formData.ac}
-                    onChange={(e) => setFormData({ ...formData, ac: parseInt(e.target.value) || 10 })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, ac: parseInt(e.target.value) || 10 })
+                    }
                     onFocus={(e) => e.target.select()}
                     min="0"
                     className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
@@ -554,7 +580,9 @@ export default function Characters() {
                   <input
                     type="number"
                     value={formData.initiativeBonus}
-                    onChange={(e) => setFormData({ ...formData, initiativeBonus: parseInt(e.target.value) || 0 })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, initiativeBonus: parseInt(e.target.value) || 0 })
+                    }
                     onFocus={(e) => e.target.select()}
                     className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   />

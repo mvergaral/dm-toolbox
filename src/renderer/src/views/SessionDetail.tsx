@@ -202,10 +202,10 @@ export default function SessionDetail() {
           updatedAt: Date.now()
         })
         // Actualizar estado local
-        setSession(prev => prev ? { ...prev, linkedCombatIds: newLinkedCombatIds } : null)
+        setSession((prev) => (prev ? { ...prev, linkedCombatIds: newLinkedCombatIds } : null))
         // Añadir a la lista de combates vinculados
-        const combat = availableCombats.find(c => c.id === combatId)
-        if (combat) setLinkedCombats(prev => [...prev, combat])
+        const combat = availableCombats.find((c) => c.id === combatId)
+        if (combat) setLinkedCombats((prev) => [...prev, combat])
       }
     } catch (error) {
       console.error('Error vinculando combate:', error)
@@ -216,15 +216,15 @@ export default function SessionDetail() {
     if (!db || !sessionId || !session) return
 
     try {
-      const newLinkedCombatIds = session.linkedCombatIds.filter(id => id !== combatId)
+      const newLinkedCombatIds = session.linkedCombatIds.filter((id) => id !== combatId)
       const doc = await db.sessions.findOne(sessionId).exec()
       if (doc) {
         await doc.patch({
           linkedCombatIds: newLinkedCombatIds,
           updatedAt: Date.now()
         })
-        setSession(prev => prev ? { ...prev, linkedCombatIds: newLinkedCombatIds } : null)
-        setLinkedCombats(prev => prev.filter(c => c.id !== combatId))
+        setSession((prev) => (prev ? { ...prev, linkedCombatIds: newLinkedCombatIds } : null))
+        setLinkedCombats((prev) => prev.filter((c) => c.id !== combatId))
       }
     } catch (error) {
       console.error('Error desvinculando combate:', error)
@@ -242,9 +242,9 @@ export default function SessionDetail() {
           linkedNpcIds: newLinkedNpcIds,
           updatedAt: Date.now()
         })
-        setSession(prev => prev ? { ...prev, linkedNpcIds: newLinkedNpcIds } : null)
-        const npc = availableNpcs.find(n => n.id === npcId)
-        if (npc) setLinkedNpcs(prev => [...prev, npc])
+        setSession((prev) => (prev ? { ...prev, linkedNpcIds: newLinkedNpcIds } : null))
+        const npc = availableNpcs.find((n) => n.id === npcId)
+        if (npc) setLinkedNpcs((prev) => [...prev, npc])
       }
     } catch (error) {
       console.error('Error vinculando NPC:', error)
@@ -255,15 +255,15 @@ export default function SessionDetail() {
     if (!db || !sessionId || !session) return
 
     try {
-      const newLinkedNpcIds = session.linkedNpcIds.filter(id => id !== npcId)
+      const newLinkedNpcIds = session.linkedNpcIds.filter((id) => id !== npcId)
       const doc = await db.sessions.findOne(sessionId).exec()
       if (doc) {
         await doc.patch({
           linkedNpcIds: newLinkedNpcIds,
           updatedAt: Date.now()
         })
-        setSession(prev => prev ? { ...prev, linkedNpcIds: newLinkedNpcIds } : null)
-        setLinkedNpcs(prev => prev.filter(n => n.id !== npcId))
+        setSession((prev) => (prev ? { ...prev, linkedNpcIds: newLinkedNpcIds } : null))
+        setLinkedNpcs((prev) => prev.filter((n) => n.id !== npcId))
       }
     } catch (error) {
       console.error('Error desvinculando NPC:', error)
@@ -273,11 +273,29 @@ export default function SessionDetail() {
   const getStatusInfo = (status: Session['status']) => {
     switch (status) {
       case 'planned':
-        return { icon: Clock, color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20', label: t('sessions.status.planned') }
+        return {
+          icon: Clock,
+          color: 'text-blue-400',
+          bg: 'bg-blue-500/10',
+          border: 'border-blue-500/20',
+          label: t('sessions.status.planned')
+        }
       case 'completed':
-        return { icon: CheckCircle2, color: 'text-green-400', bg: 'bg-green-500/10', border: 'border-green-500/20', label: t('sessions.status.completed') }
+        return {
+          icon: CheckCircle2,
+          color: 'text-green-400',
+          bg: 'bg-green-500/10',
+          border: 'border-green-500/20',
+          label: t('sessions.status.completed')
+        }
       case 'cancelled':
-        return { icon: XCircle, color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20', label: t('sessions.status.cancelled') }
+        return {
+          icon: XCircle,
+          color: 'text-red-400',
+          bg: 'bg-red-500/10',
+          border: 'border-red-500/20',
+          label: t('sessions.status.cancelled')
+        }
     }
   }
 
@@ -324,7 +342,9 @@ export default function SessionDetail() {
             <div className="bg-indigo-500/20 text-indigo-400 px-3 py-1.5 rounded-full text-sm font-bold">
               {t('sessions.sessionNumber', { number: session.sessionNumber })}
             </div>
-            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium ${statusInfo.bg} ${statusInfo.color} border ${statusInfo.border}`}>
+            <div
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium ${statusInfo.bg} ${statusInfo.color} border ${statusInfo.border}`}
+            >
               <StatusIcon size={16} />
               {statusInfo.label}
             </div>
@@ -353,11 +373,13 @@ export default function SessionDetail() {
             <span className="hidden sm:inline">{t('nav.goToCampaign')}</span>
           </button>
           <button
-            onClick={() => navigate(`/campaign/${campaignId}/sessions`, {
-              state: {
-                editSession: session
-              }
-            })}
+            onClick={() =>
+              navigate(`/campaign/${campaignId}/sessions`, {
+                state: {
+                  editSession: session
+                }
+              })
+            }
             className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
           >
             <Edit2 size={18} />
@@ -397,7 +419,8 @@ export default function SessionDetail() {
                 placeholder={t('sessions.detail.notesPlaceholder')}
               />
             ) : session.notes ? (
-              <div className="prose prose-invert prose-slate max-w-none"
+              <div
+                className="prose prose-invert prose-slate max-w-none"
                 style={{
                   color: 'rgb(226, 232, 240)',
                   fontSize: '0.95rem',
@@ -429,6 +452,7 @@ export default function SessionDetail() {
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeSanitize]}
                   components={{
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     a: ({ node, ...props }) => (
                       <a {...props} target="_blank" rel="noopener noreferrer" />
                     )
@@ -525,66 +549,73 @@ export default function SessionDetail() {
             ) : (
               <div className="space-y-2">
                 {linkedNpcs.map((npc) => (
-                  <div key={npc.id} className="relative group bg-slate-800 border border-slate-700 rounded-lg overflow-hidden hover:border-purple-500/50 transition-colors">
+                  <div
+                    key={npc.id}
+                    className="relative group bg-slate-800 border border-slate-700 rounded-lg overflow-hidden hover:border-purple-500/50 transition-colors"
+                  >
                     <button
                       onClick={() => setSelectedNpc(npc)}
                       className="w-full p-3 text-left transition-all hover:bg-slate-700/50"
                     >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-slate-700 border-2 border-slate-600 flex-shrink-0 overflow-hidden">
-                        {npc.imageData ? (
-                          <img
-                            src={npc.imageData}
-                            alt={npc.name}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-slate-500">
-                            {npc.isHostile ? <Skull size={20} /> : <Users size={20} />}
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-white font-medium group-hover:text-purple-400 transition-colors truncate">
-                            {npc.name}
-                          </span>
-                          {npc.isHostile && (
-                            <Skull size={14} className="text-red-500 flex-shrink-0" />
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-slate-700 border-2 border-slate-600 flex-shrink-0 overflow-hidden">
+                          {npc.imageData ? (
+                            <img
+                              src={npc.imageData}
+                              alt={npc.name}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-slate-500">
+                              {npc.isHostile ? <Skull size={20} /> : <Users size={20} />}
+                            </div>
                           )}
                         </div>
-                        <p className="text-xs text-slate-500 truncate">
-                          {npc.role || npc.race || 'NPC'}
-                        </p>
-                      </div>
-                    </div>
-                  </button>
-
-                  {npc.notes && (
-                    <>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          setExpandedNpcId(expandedNpcId === npc.id ? null : npc.id)
-                        }}
-                        className="w-full flex items-center justify-center py-1 bg-slate-900/30 hover:bg-slate-900/50 border-t border-slate-700/50 text-slate-500 hover:text-slate-300 transition-colors"
-                      >
-                        {expandedNpcId === npc.id ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-                      </button>
-
-                      {expandedNpcId === npc.id && (
-                        <div className="p-3 bg-slate-900/50 border-t border-slate-700/50">
-                          <div className="flex items-center gap-2 mb-1 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                            <FileText size={12} />
-                            {t('npcs.form.notes')}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="text-white font-medium group-hover:text-purple-400 transition-colors truncate">
+                              {npc.name}
+                            </span>
+                            {npc.isHostile && (
+                              <Skull size={14} className="text-red-500 flex-shrink-0" />
+                            )}
                           </div>
-                          <p className="text-sm text-slate-300 whitespace-pre-wrap leading-relaxed">
-                            {npc.notes}
+                          <p className="text-xs text-slate-500 truncate">
+                            {npc.role || npc.race || 'NPC'}
                           </p>
                         </div>
-                      )}
-                    </>
-                  )}
+                      </div>
+                    </button>
+
+                    {npc.notes && (
+                      <>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setExpandedNpcId(expandedNpcId === npc.id ? null : npc.id)
+                          }}
+                          className="w-full flex items-center justify-center py-1 bg-slate-900/30 hover:bg-slate-900/50 border-t border-slate-700/50 text-slate-500 hover:text-slate-300 transition-colors"
+                        >
+                          {expandedNpcId === npc.id ? (
+                            <ChevronUp size={14} />
+                          ) : (
+                            <ChevronDown size={14} />
+                          )}
+                        </button>
+
+                        {expandedNpcId === npc.id && (
+                          <div className="p-3 bg-slate-900/50 border-t border-slate-700/50">
+                            <div className="flex items-center gap-2 mb-1 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                              <FileText size={12} />
+                              {t('npcs.form.notes')}
+                            </div>
+                            <p className="text-sm text-slate-300 whitespace-pre-wrap leading-relaxed">
+                              {npc.notes}
+                            </p>
+                          </div>
+                        )}
+                      </>
+                    )}
 
                     <button
                       onClick={(e) => {
@@ -622,14 +653,15 @@ export default function SessionDetail() {
             </div>
 
             <div className="flex-1 overflow-y-auto p-6">
-              {availableCombats.filter(c => !session?.linkedCombatIds.includes(c.id)).length === 0 ? (
+              {availableCombats.filter((c) => !session?.linkedCombatIds.includes(c.id)).length ===
+              0 ? (
                 <p className="text-slate-400 text-center py-8">
                   {t('sessions.detail.noCombatsAvailable')}
                 </p>
               ) : (
                 <div className="space-y-2">
                   {availableCombats
-                    .filter(combat => !session?.linkedCombatIds.includes(combat.id))
+                    .filter((combat) => !session?.linkedCombatIds.includes(combat.id))
                     .map((combat) => (
                       <button
                         key={combat.id}
@@ -647,7 +679,9 @@ export default function SessionDetail() {
                                 {combat.name}
                               </span>
                               {combat.isActive && (
-                                <span className="text-xs text-green-400">{t('sessions.detail.active')}</span>
+                                <span className="text-xs text-green-400">
+                                  {t('sessions.detail.active')}
+                                </span>
                               )}
                               {!combat.isActive && combat.round > 0 && (
                                 <span className="text-xs text-slate-500">
@@ -656,7 +690,10 @@ export default function SessionDetail() {
                               )}
                             </div>
                           </div>
-                          <Plus size={20} className="text-slate-500 group-hover:text-red-400 transition-colors" />
+                          <Plus
+                            size={20}
+                            className="text-slate-500 group-hover:text-red-400 transition-colors"
+                          />
                         </div>
                       </button>
                     ))}
@@ -694,14 +731,14 @@ export default function SessionDetail() {
             </div>
 
             <div className="flex-1 overflow-y-auto p-6">
-              {availableNpcs.filter(n => !session?.linkedNpcIds.includes(n.id)).length === 0 ? (
+              {availableNpcs.filter((n) => !session?.linkedNpcIds.includes(n.id)).length === 0 ? (
                 <p className="text-slate-400 text-center py-8">
                   {t('sessions.detail.noNpcsAvailable')}
                 </p>
               ) : (
                 <div className="space-y-2">
                   {availableNpcs
-                    .filter(npc => !session?.linkedNpcIds.includes(npc.id))
+                    .filter((npc) => !session?.linkedNpcIds.includes(npc.id))
                     .map((npc) => (
                       <button
                         key={npc.id}
@@ -740,7 +777,10 @@ export default function SessionDetail() {
                               </p>
                             </div>
                           </div>
-                          <Plus size={20} className="text-slate-500 group-hover:text-purple-400 transition-colors" />
+                          <Plus
+                            size={20}
+                            className="text-slate-500 group-hover:text-purple-400 transition-colors"
+                          />
                         </div>
                       </button>
                     ))}
@@ -811,11 +851,13 @@ export default function SessionDetail() {
               {/* Estado */}
               <div className="bg-slate-800 border border-slate-700 rounded-lg p-4">
                 <p className="text-slate-400 text-sm mb-2">{t('npcs.form.status')}</p>
-                <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium ${
-                  selectedNpc.isHostile
-                    ? 'bg-red-500/20 text-red-400 border border-red-500/30'
-                    : 'bg-green-500/20 text-green-400 border border-green-500/30'
-                }`}>
+                <div
+                  className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium ${
+                    selectedNpc.isHostile
+                      ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                      : 'bg-green-500/20 text-green-400 border border-green-500/30'
+                  }`}
+                >
                   {selectedNpc.isHostile ? (
                     <>
                       <Skull size={16} />

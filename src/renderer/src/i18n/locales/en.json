@@ -395,5 +395,33 @@
       "proTip": "Pro Tip",
       "combatTracker": "You can use the <1>Combat Tracker</1> without creating a session. Simply go to your campaign and select \"Combat\"."
     }
+  },
+  "rollTables": {
+    "title": "Roll Tables",
+    "description": "Create and manage random tables for your games.",
+    "new": "New Table",
+    "edit": "Edit Table",
+    "create": "Create Table",
+    "search": "Search tables...",
+    "rows": "rows",
+    "roll": "Roll!",
+    "result": "Result",
+    "tableRows": "Table Rows",
+    "addRow": "Add Row",
+    "form": {
+      "title": "Title",
+      "titlePlaceholder": "e.g. Random Encounters",
+      "description": "Description",
+      "descriptionPlaceholder": "Optional description...",
+      "resultPlaceholder": "Result..."
+    },
+    "delete": {
+      "error": "Error deleting table",
+      "success": "Table deleted successfully"
+    },
+    "save": {
+      "error": "Error saving table",
+      "success": "Table saved successfully"
+    }
   }
 }

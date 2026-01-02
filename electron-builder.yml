@@ -1,7 +1,7 @@
 appId: com.electron.app
 productName: DM Toolbox
 directories:
-  buildResources: build
+  buildResources: resources
 files:
   - '!**/.vscode/*'
   - '!src/*'
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  icon: build/icon.ico
+  icon: resources/icon.ico
   executableName: dm-toolbox
   target:
     - nsis
@@ -25,8 +25,7 @@ nsis:
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
 mac:
-  icon: build/icon.icns
-  entitlementsInherit: build/entitlements.mac.plist
+  icon: resources/icon.icns
   extendInfo:
     - NSCameraUsageDescription: Application requests access to the device's camera.
     - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
@@ -36,7 +35,7 @@ mac:
 dmg:
   artifactName: ${name}-${version}.${ext}
 linux:
-  icon: build/icon.png
+  icon: resources/icon.png
   target:
     - AppImage
     - snap

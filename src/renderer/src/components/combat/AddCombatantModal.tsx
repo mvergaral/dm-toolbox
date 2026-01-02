@@ -89,7 +89,7 @@ export default function AddCombatantModal({
             }
           })
           .exec()
-        setCharacters(charDocs.map(doc => doc.toJSON()))
+        setCharacters(charDocs.map((doc) => doc.toJSON()))
 
         // Cargar NPCs y Monstruos
         const npcDocs = await db.npcs
@@ -100,10 +100,9 @@ export default function AddCombatantModal({
           })
           .exec()
 
-        const allNpcs = npcDocs.map(doc => doc.toJSON())
-        setNpcs(allNpcs.filter(n => n.type === 'npc' || !n.type)) // Compatibilidad con docs viejos
-        setMonsters(allNpcs.filter(n => n.type === 'monster'))
-
+        const allNpcs = npcDocs.map((doc) => doc.toJSON())
+        setNpcs(allNpcs.filter((n) => n.type === 'npc' || !n.type)) // Compatibilidad con docs viejos
+        setMonsters(allNpcs.filter((n) => n.type === 'monster'))
       } catch (error) {
         console.error('Error cargando datos:', error)
       }
@@ -155,10 +154,10 @@ export default function AddCombatantModal({
       const totalInitiative = (Number(initiative) || 0) + initiativeBonus
 
       // Si es NPC/Monstruo y hay cantidad > 1, crear múltiples
-      const count = (isNpc && quantity > 1) ? quantity : 1;
+      const count = isNpc && quantity > 1 ? quantity : 1
 
       for (let i = 0; i < count; i++) {
-        const displayName = count > 1 ? `${name.trim()} ${i + 1}` : name.trim();
+        const displayName = count > 1 ? `${name.trim()} ${i + 1}` : name.trim()
 
         await onAdd({
           id: `cbt_${Date.now()}_${i}`,
@@ -192,10 +191,7 @@ export default function AddCombatantModal({
         {/* Header */}
         <div className="sticky top-0 bg-slate-900 border-b border-slate-800 p-6 flex items-center justify-between">
           <h2 className="text-2xl font-bold text-white">Añadir Combatiente</h2>
-          <button
-            onClick={onClose}
-            className="text-slate-400 hover:text-white transition-colors"
-          >
+          <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors">
             <X size={24} />
           </button>
         </div>
@@ -250,74 +246,83 @@ export default function AddCombatantModal({
 
             {/* Lista de selección */}
             <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto p-2 bg-slate-950/50 rounded-lg border border-slate-800">
-              {activeTab === 'characters' && characters.map((char) => (
-                <button
-                  key={char.id}
-                  type="button"
-                  onClick={() => selectCharacter(char)}
-                  className={`flex items-center gap-2 p-2 rounded-lg border transition-all text-left ${
-                    selectedEntityId === char.id
-                      ? 'bg-indigo-500/20 border-indigo-500 text-indigo-300'
-                      : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-600'
-                  }`}
-                >
-                  <User size={16} className="flex-shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium truncate">{char.name}</div>
-                    <div className="text-xs text-slate-500">
-                      HP: {char.maxHp} | AC: {char.ac}
+              {activeTab === 'characters' &&
+                characters.map((char) => (
+                  <button
+                    key={char.id}
+                    type="button"
+                    onClick={() => selectCharacter(char)}
+                    className={`flex items-center gap-2 p-2 rounded-lg border transition-all text-left ${
+                      selectedEntityId === char.id
+                        ? 'bg-indigo-500/20 border-indigo-500 text-indigo-300'
+                        : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-600'
+                    }`}
+                  >
+                    <User size={16} className="flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium truncate">{char.name}</div>
+                      <div className="text-xs text-slate-500">
+                        HP: {char.maxHp} | AC: {char.ac}
+                      </div>
                     </div>
-                  </div>
-                </button>
-              ))}
+                  </button>
+                ))}
 
-              {activeTab === 'npcs' && npcs.map((npc) => (
-                <button
-                  key={npc.id}
-                  type="button"
-                  onClick={() => selectNpcOrMonster(npc)}
-                  className={`flex items-center gap-2 p-2 rounded-lg border transition-all text-left ${
-                    selectedEntityId === npc.id
-                      ? 'bg-indigo-500/20 border-indigo-500 text-indigo-300'
-                      : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-600'
-                  }`}
-                >
-                  <Users size={16} className="flex-shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium truncate">{npc.name}</div>
-                    <div className="text-xs text-slate-500">
-                      HP: {npc.hp} | AC: {npc.ac}
+              {activeTab === 'npcs' &&
+                npcs.map((npc) => (
+                  <button
+                    key={npc.id}
+                    type="button"
+                    onClick={() => selectNpcOrMonster(npc)}
+                    className={`flex items-center gap-2 p-2 rounded-lg border transition-all text-left ${
+                      selectedEntityId === npc.id
+                        ? 'bg-indigo-500/20 border-indigo-500 text-indigo-300'
+                        : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-600'
+                    }`}
+                  >
+                    <Users size={16} className="flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium truncate">{npc.name}</div>
+                      <div className="text-xs text-slate-500">
+                        HP: {npc.hp} | AC: {npc.ac}
+                      </div>
                     </div>
-                  </div>
-                </button>
-              ))}
+                  </button>
+                ))}
 
-              {activeTab === 'monsters' && monsters.map((monster) => (
-                <button
-                  key={monster.id}
-                  type="button"
-                  onClick={() => selectNpcOrMonster(monster)}
-                  className={`flex items-center gap-2 p-2 rounded-lg border transition-all text-left ${
-                    selectedEntityId === monster.id
-                      ? 'bg-red-500/20 border-red-500 text-red-300'
-                      : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-600'
-                  }`}
-                >
-                  <Skull size={16} className="flex-shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium truncate">{monster.name}</div>
-                    <div className="text-xs text-slate-500">
-                      HP: {monster.hp} | AC: {monster.ac}
+              {activeTab === 'monsters' &&
+                monsters.map((monster) => (
+                  <button
+                    key={monster.id}
+                    type="button"
+                    onClick={() => selectNpcOrMonster(monster)}
+                    className={`flex items-center gap-2 p-2 rounded-lg border transition-all text-left ${
+                      selectedEntityId === monster.id
+                        ? 'bg-red-500/20 border-red-500 text-red-300'
+                        : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-600'
+                    }`}
+                  >
+                    <Skull size={16} className="flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium truncate">{monster.name}</div>
+                      <div className="text-xs text-slate-500">
+                        HP: {monster.hp} | AC: {monster.ac}
+                      </div>
                     </div>
-                  </div>
-                </button>
-              ))}
+                  </button>
+                ))}
 
               {((activeTab === 'characters' && characters.length === 0) ||
                 (activeTab === 'npcs' && npcs.length === 0) ||
                 (activeTab === 'monsters' && monsters.length === 0)) && (
                 <div className="col-span-2 py-4 text-center text-slate-500 text-sm">
-                  No hay {activeTab === 'characters' ? 'personajes' : activeTab === 'npcs' ? 'NPCs' : 'monstruos'} disponibles
+                  No hay{' '}
+                  {activeTab === 'characters'
+                    ? 'personajes'
+                    : activeTab === 'npcs'
+                      ? 'NPCs'
+                      : 'monstruos'}{' '}
+                  disponibles
                 </div>
               )}
             </div>
@@ -325,9 +330,7 @@ export default function AddCombatantModal({
 
           {/* Tipo: PJ/NPC */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-3">
-              Tipo
-            </label>
+            <label className="block text-sm font-medium text-slate-300 mb-3">Tipo</label>
             <div className="grid grid-cols-3 gap-3">
               <button
                 type="button"
@@ -386,7 +389,9 @@ export default function AddCombatantModal({
           {/* Hostil Toggle (solo para NPCs/Monstruos) */}
           {isNpc && (
             <div className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700">
-              <div className={`p-2 rounded-lg ${isHostile ? 'bg-red-500/20 text-red-400' : 'bg-slate-700 text-slate-400'}`}>
+              <div
+                className={`p-2 rounded-lg ${isHostile ? 'bg-red-500/20 text-red-400' : 'bg-slate-700 text-slate-400'}`}
+              >
                 <Swords size={20} />
               </div>
               <div className="flex-1">
@@ -412,10 +417,7 @@ export default function AddCombatantModal({
           {/* Nombre y Cantidad */}
           <div className="flex gap-4">
             <div className="flex-1">
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-slate-300 mb-2"
-              >
+              <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">
                 Nombre *
               </label>
               <input
@@ -431,10 +433,7 @@ export default function AddCombatantModal({
 
             {isNpc && (
               <div className="w-24">
-                <label
-                  htmlFor="quantity"
-                  className="block text-sm font-medium text-slate-300 mb-2"
-                >
+                <label htmlFor="quantity" className="block text-sm font-medium text-slate-300 mb-2">
                   Cantidad
                 </label>
                 <input
@@ -452,10 +451,7 @@ export default function AddCombatantModal({
 
           {/* Iniciativa */}
           <div>
-            <label
-              htmlFor="initiative"
-              className="block text-sm font-medium text-slate-300 mb-2"
-            >
+            <label htmlFor="initiative" className="block text-sm font-medium text-slate-300 mb-2">
               Iniciativa (Tirada + Bonus) *
             </label>
             <div className="flex items-center gap-3">
@@ -464,7 +460,9 @@ export default function AddCombatantModal({
                   id="initiative"
                   type="number"
                   value={initiative}
-                  onChange={(e) => setInitiative(e.target.value === '' ? '' : Number(e.target.value))}
+                  onChange={(e) =>
+                    setInitiative(e.target.value === '' ? '' : Number(e.target.value))
+                  }
                   onFocus={(e) => e.target.select()}
                   placeholder="Tirada d20"
                   min="0"
@@ -496,10 +494,7 @@ export default function AddCombatantModal({
           {/* HP y AC */}
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label
-                htmlFor="hp"
-                className="block text-sm font-medium text-slate-300 mb-2"
-              >
+              <label htmlFor="hp" className="block text-sm font-medium text-slate-300 mb-2">
                 HP Actual *
               </label>
               <input
@@ -514,10 +509,7 @@ export default function AddCombatantModal({
               />
             </div>
             <div>
-              <label
-                htmlFor="maxHp"
-                className="block text-sm font-medium text-slate-300 mb-2"
-              >
+              <label htmlFor="maxHp" className="block text-sm font-medium text-slate-300 mb-2">
                 HP Máximo *
               </label>
               <input
@@ -541,10 +533,7 @@ export default function AddCombatantModal({
               />
             </div>
             <div>
-              <label
-                htmlFor="ac"
-                className="block text-sm font-medium text-slate-300 mb-2"
-              >
+              <label htmlFor="ac" className="block text-sm font-medium text-slate-300 mb-2">
                 AC *
               </label>
               <input
@@ -563,10 +552,7 @@ export default function AddCombatantModal({
           {/* Ataques (solo para NPCs) */}
           {isNpc && (
             <div>
-              <label
-                htmlFor="attacks"
-                className="block text-sm font-medium text-slate-300 mb-2"
-              >
+              <label htmlFor="attacks" className="block text-sm font-medium text-slate-300 mb-2">
                 Ataques
               </label>
               <input
@@ -585,10 +571,7 @@ export default function AddCombatantModal({
 
           {/* Notas */}
           <div>
-            <label
-              htmlFor="notes"
-              className="block text-sm font-medium text-slate-300 mb-2"
-            >
+            <label htmlFor="notes" className="block text-sm font-medium text-slate-300 mb-2">
               Notas
             </label>
             <textarea
