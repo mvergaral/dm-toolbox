@@ -101,7 +101,9 @@ export default function CombatActive() {
       })
       .$.subscribe({
         next: (docs: RxDocument<Combatant>[]) => {
-          const sorted = docs.map((doc) => doc.toJSON()).sort((a, b) => b.initiative - a.initiative)
+          const sorted = docs
+            .map((doc) => doc.toJSON() as unknown as Combatant)
+            .sort((a, b) => b.initiative - a.initiative)
           setCombatants(sorted)
         },
         error: (error) => {
