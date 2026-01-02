@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.4](https://github.com/mvergaral/dm-toolbox/compare/v0.4.3...v0.4.4) (2026-01-02)
+
+### Bug Fixes
+
+- **build:** update windows icon to 256x256 resolution ([32f78b6](https://github.com/mvergaral/dm-toolbox/commit/32f78b61b37bddafad02ed02f973e3c28a84e1ee))
+
 ### [0.4.3](https://github.com/mvergaral/dm-toolbox/compare/v0.4.2...v0.4.3) (2026-01-02)
 
 ### Bug Fixes
